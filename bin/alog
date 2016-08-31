@@ -16,17 +16,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# handle module loading for cluster thinking
-case "${VSC_INSTITUTE_CLUSTER}" in
-    thinking)
-        PYTHON="/apps/leuven/common/python/2.7.9_sysadm/bin/python"
-        ;;
-    breniac)
-        module purge
-        module load Python/2.7.11-foss-2016a
-        ;;
-esac
-
 # ensure that OpenBLAS doesn't blow up
 export OMP_NUM_THREADS=1
 
@@ -39,6 +28,9 @@ then
     DIR=$( cd -P "$( dirname "${exec}" )" && pwd )
     export VSC_MODULE_DEPENDENCIES_DIR="${DIR}/.."
 fi
+
+# load the Python interpeter from the config file
+source "${DIR}/../conf/atools.conf"
 
 # add scripts and lib directory to PYTHONPATH
 if [ -z "${VSC_MODULE_DEPENDENCIES_SCRIPTS_DIR}" ]
