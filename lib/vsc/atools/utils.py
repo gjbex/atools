@@ -31,14 +31,26 @@ class EnvVarError(Exception):
 
 
 class InvalidLogEntryError(Exception):
-    '''Exception to signal that an environment variable is not set'''
+    '''Exception to signal that a log file entry is invalid'''
 
     def __init__(self, log_line):
-        '''Constructor for the exception on the environment variable
-        var_name'''
+        '''Constructor for the exception on the log entry'''
         self._log_line = log_line
         self.errno = 1
 
     def __str__(self):
         msg = "log line '{0}' is invalid"
         return msg.format(self._log_line)
+
+
+class InvalidRangeSpecError(Exception):
+    '''Exception to signal an invalid array ID range specification'''
+
+    def __init__(self, range_spec):
+        '''Constructor for the exception on the range specification'''
+        self._range_spec = range_spec
+        self.errno = 21
+
+    def __str__(self):
+        msg = "range specification '{0}' is invalid"
+        return msg.format(self._range_spec)
