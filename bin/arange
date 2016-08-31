@@ -1,0 +1,57 @@
+#!/bin/bash -l
+#
+# Copyright (C) 2013 Geert Jan Bex <geertjan.bex@uhasselt.be>
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# handle module loading for cluster thinking
+case "${VSC_INSTITUTE_CLUSTER}" in
+    thinking)
+        PYTHON="/apps/leuven/common/python/2.7.9_sysadm/bin/python"
+        ;;
+    breniac)
+        module purge
+        module load Python/2.7.11-foss-2016a
+        ;;
+esac
+
+# ensure that OpenBLAS doesn't blow up
+export OMP_NUM_THREADS=1
+
+# determine true location of Bash script
+exec=$(readlink -f ${0})
+
+# determine directory of vsc-module-dependencies
+if [ -z "${VSC_MODULE_DEPENDENCIES_DIR}" ]
+then
+    DIR=$( cd -P "$( dirname "${exec}" )" && pwd )
+    export VSC_MODULE_DEPENDENCIES_DIR="${DIR}/.."
+fi
+
+# add scripts and lib directory to PYTHONPATH
+if [ -z "${VSC_MODULE_DEPENDENCIES_SCRIPTS_DIR}" ]
+then
+    VSC_MODULE_DEPENDENCIES_SCRIPTS_DIR="${VSC_MODULE_DEPENDENCIES_DIR}/scripts"
+fi
+PYTHONPATH="${VSC_MODULE_DEPENDENCIES_SCRIPTS_DIR}:${PYTHONPATH}"
+
+if [ -z "${VSC_MODULE_DEPENDENCIES_LIB_DIR}" ]
+then
+    VSC_MODULE_DEPENDENCIES_LIB_DIR="${VSC_MODULE_DEPENDENCIES_DIR}/lib"
+fi
+PYTHONPATH="${VSC_MODULE_DEPENDENCIES_LIB_DIR}:${PYTHONPATH}"
+export PYTHONPATH
+
+${PYTHON} ${VSC_MODULE_DEPENDENCIES_SCRIPTS_DIR}/arange.py "$@"
