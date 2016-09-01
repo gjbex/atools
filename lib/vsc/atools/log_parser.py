@@ -39,7 +39,7 @@ class LogEvent(object):
 
     event_types = ['started', 'completed', 'failed']
     date_fmt = '%Y-%m-%d %H:%M:%S'
-    repr_re = re.compile(r'^(\d+) (\w+) by (\w+) at (.+)(?::\s+(\d+))?$')
+    repr_re = re.compile(r'^(\d+) (\w+) by (\w+) at (.+?)(?::\s+(\d+))?$')
 
     def __init__(self, time_stamp, event_type, item_id, slave_id,
                  exit_status=None):
@@ -112,22 +112,23 @@ class LogParser(object):
         '''alog parser constructor'''
         pass
 
-    def parse(self, log_file, ignore_invalid=False):
+    def parse_file(self, log_file, ignore_invalid=False):
         '''Parse given log file, and retrun a list of events'''
         events = []
         for line in log_file:
             try:
-                events.append(LogEvent_parse_str(line.rstrip()))
+                events.append(LogEvent.parse_str(line.rstrip()))
             except InvalidLogEntryError as error:
                 if ignore_invalid:
                     msg = '### warning: {0}\n'.format(str(error))
                     sys.stderr.write(msg)
                 else:
                     raise error
-        return events.sort(key=attrgetter('time_stamp'))
+        events.sort(key=attrgetter('time_stamp'))
+        return events
 
-    def parse_file(self, log_filename, ignore_invalid=False):
+    def parse(self, log_filename, ignore_invalid=False):
         '''Parse given log file, and retrun a list of events'''
         with open(log_filename, 'r') as log_file:
-            return self.parse(log_file, ignore_invalid)
+            return self.parse_file(log_file, ignore_invalid)
 
