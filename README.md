@@ -27,7 +27,7 @@ alpha,beta,gamma
 The file `data.csv` above describes four tasks, specified by three
 parameters `alpha`, `beta`, and `gamma` respectively.
 It would be convenient if the corresponding PBS script could be written as:
-```
+```bash
 #!/bin/bash
 #PBS -l nodes=1:ppn=1
 
@@ -35,7 +35,7 @@ cd $PBS_O_WORKDIR
 do_some_computation $alpha $beta $gamma
 ```
 The `aenv` command makes this straightforward.
-```
+```bash
 #!/bin/bash
 #PBS -l nodes=1:ppn=1
 
@@ -45,12 +45,12 @@ do_some_computation $alpha $beta $gamma
 ```
 To submit this job, first determine the relevant array ID range using the
 `arange` command, i.e.,
-```
+```bash
 $ arange --data data.csv
 1-4
 ```
 Now the job can be submitted as
-```
+```bash
 $ qsub -t 1-4 my_job.pbs
 ```
 The subsequent values of `PBS_ARRAYID` will be used under to hood as a
@@ -60,7 +60,7 @@ PBS torque will create individual output and error files from which it may
 be possible to gather statistics and exit status information, but again,
 this requires tinkering by the user. `atools` provides a straightforward
 logging mechanism using `alog`, e.g.,
-```
+```bash
 #!/bin/bash
 #PBS -l nodes=1:ppn=1
 
@@ -76,7 +76,7 @@ This will create a log file with a name following the pattern
 if `do_some_computation` in the previous examples fails, or the job is
 aborted for some reason, this log can be used to determine which
 computation have to be redone using `arange`, e.g.,
-```
+```bash
 $ arange --data data.csv --log my_job.pbs.log94894
 ```
 The output can be used as an argument for the `-t` option of `qsub` or
@@ -91,6 +91,25 @@ Help on all command can be obtained using the `--help` option.
 `atools` requires at least Python 2.7.x, but only uses the standard
 library.
 
+
 ## Installing
 After dropping the directory wherever convenient, review the bash scripts
 in the `bin` directory to set a Python executable of your liking.
+
+
+## FAQ
+1. `aenv` is neat, but I don't care about job arrays, can it still be used?
+
+   Yes, it can.  Simply use the `--id` option to specify a row in a CSV
+   file.
+1. It seems that `arange` isn't useful unless you work with a CSV file for
+    variable initialization, but I simply use `PBS_ARRAYID` for bookkeeping,
+    how can I use `arange`?
+
+    `arange` also has the `-t` option that you can use as you would when
+    submitting a job.
+1. When using `arange` to compute which array IDs to redo it seems to
+    return items that were done before, why?
+
+    Remember to pass *all* relevant log files to `arange`, not only the
+    last one.
