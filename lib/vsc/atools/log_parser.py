@@ -5,7 +5,8 @@ from operator import attrgetter
 import re
 import sys
 
-from vsc.atools.ArrayToolsError
+from vsc.atools.utils import ArrayToolsError
+from vsc.atools.log_parser import LogEvent
 
 
 class InvalidLogEventError(Exception):
@@ -39,6 +40,7 @@ class LogEvent(object):
 
     event_types = ['started', 'completed', 'failed']
     date_fmt = '%Y-%m-%d %H:%M:%S'
+    repr_re = re.compile(r'^(\d+) (\w+) by (\w+) at (.+)(?::\s+(\d+))?$')
 
     def __init__(self, time_stamp, event_type, item_id, slave_id,
                  exit_status=None):
@@ -52,6 +54,26 @@ class LogEvent(object):
         self._time_stamp = datetime.strptime(time_stamp,
                                              LogEvent.date_fmt)
         self._exit = exit_status
+
+    @classmethod
+    def parse_str(cls, log_str):
+        '''Parse given log string, and retrun a list of events'''
+        match = cls.repr_re.match(log_str.rstrip())
+        if match:
+            event_type = match.group(2)
+            item_id = int(match.group(1))
+            slave_id = match.group(3)
+            time_stamp = match.group(4)
+            if event_type == 'failed':
+                exit_status = int(match.group(5))
+            elif event_type == 'completed':
+                exit_status = 0
+            else:
+                exit_status = None
+            return LogEvent(time_stamp, event_type, item_id, slave_id,
+                            exit_status)
+        else:
+            raise InvalidLogEntryError(log_str.rstrip())
 
     @property
     def type(self):
@@ -89,34 +111,14 @@ class LogParser(object):
 
     def __init__(self):
         '''alog parser constructor'''
-        expr = r'^(\d+) (\w+) by (\w+) at (.+)(?::\s+(\d+))?$'
-        self._line_re = re.compile(expr)
-
-    def _parse_line(self, line):
-        '''Parse given log line, and retrun a list of events'''
-        match = self._line_re.match(line.rstrip())
-        if match:
-            event_type = match.group(2)
-            item_id = int(match.group(1))
-            slave_id = match.group(3)
-            time_stamp = match.group(4)
-            if event_type == 'failed':
-                exit_status = int(match.group(5))
-            elif event_type == 'completed':
-                exit_status = 0
-            else:
-                exit_status = None
-            return LogEvent(time_stamp, event_type, item_id, slave_id,
-                            exit_status)
-        else:
-            raise InvalidLogEntryError(line.rstrip())
+        pass
 
     def parse(self, log_file, ignore_invalid=False):
         '''Parse given log file, and retrun a list of events'''
         events = []
         for line in log_file:
             try:
-                events.append(self._parse_line(line.rstrip()))
+                events.append(LogEvent_parse_str(line.rstrip()))
             except InvalidLogEntryError as error:
                 if ignore_invalid:
                     msg = '### warning: {0}\n'.format(str(error))
@@ -129,3 +131,4 @@ class LogParser(object):
         '''Parse given log file, and retrun a list of events'''
         with open(log_filename, 'r') as log_file:
             return self.parse(log_file, ignore_invalid)
+
