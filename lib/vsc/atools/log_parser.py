@@ -96,10 +96,10 @@ class LogEvent(object):
 
     def __str__(self):
         time_stamp_str = self.time_stamp.strftime(LogEvent.date_fmt)
-        event_str = '{0:d} {1} by {2} at {3}'.format(self.item_id,
-                                                     self.type,
-                                                     self.slave_id,
-                                                     time_stamp_str)
+        event_str = '{0} {1} by {2} at {3}'.format(self.item_id,
+                                                   self.type,
+                                                   self.slave_id,
+                                                   time_stamp_str)
         if self.type == 'failed':
             event_str += ': {0:d}'.format(self.exit_status)
         return event_str

@@ -8,6 +8,7 @@ import socket
 import sys
 import time
 
+from vsc.atools.log_parser import LogEvent
 from vsc.atools.utils import EnvVarError
 
 
@@ -50,6 +51,7 @@ def create_end_msg(exit_code):
         event_type = 'failed'
     event = LogEvent(time_stamp, event_type, work_item_id, hostname,
                      exit_code)
+    return str(event)
 
 if __name__ == '__main__':
     arg_parser = ArgumentParser(description='Work item logger')
