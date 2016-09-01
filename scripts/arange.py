@@ -6,7 +6,7 @@ import re
 import sys
 
 from vsc.atools.utils import InvalidRangeSpecError
-from vsc.atools.log_parser import InvalidLogEntryError
+from vsc.atools.log_parser import LogParser, InvalidLogEntryError
 
 
 def parse_log_line(line):
@@ -120,17 +120,17 @@ if __name__ == '__main__':
         failed = set()
         try:
             for filename in options.log:
-                with open(filename, 'r') as log_file:
-                    for line in log_file:
-                        if 'completed' in line:
-                            todo.discard(parse_log_line(line))
-                            completed.add(parse_log_line(line))
-                        elif 'failed' in line:
-                            failed.add(parse_log_line(line))
+                log_parser = LogParser()
+                events = log_parser.parse(filename)
+                for event in events:
+                    if event.type == 'completed':
+                        todo.discard(event.item_id)
+                        completed.add(event.item_id)
+                    elif event.type == 'failed':
+                        failed.add(event.item_id)
             if not options.redo:
                 failed -= completed
                 todo -= failed
-            print(compute_ranges(todo))
         except IOError as error:
             msg = '### IOError: {0}'.format(str(error))
             sys.stderr.write(msg)
@@ -139,5 +139,4 @@ if __name__ == '__main__':
             msg = '### IOError: {0}'.format(str(error))
             sys.stderr.write(msg)
             sys.exit(error.errno)
-    else:
-        print(compute_ranges(todo))
+    print(compute_ranges(todo))
