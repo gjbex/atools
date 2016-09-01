@@ -30,19 +30,6 @@ class EnvVarError(Exception):
         return msg.format(self._var_name)
 
 
-class InvalidLogEntryError(Exception):
-    '''Exception to signal that a log file entry is invalid'''
-
-    def __init__(self, log_line):
-        '''Constructor for the exception on the log entry'''
-        self._log_line = log_line
-        self.errno = 1
-
-    def __str__(self):
-        msg = "log line '{0}' is invalid"
-        return msg.format(self._log_line)
-
-
 class InvalidRangeSpecError(Exception):
     '''Exception to signal an invalid array ID range specification'''
 

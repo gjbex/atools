@@ -5,7 +5,8 @@ import csv
 import re
 import sys
 
-from vsc.atools.utils import InvalidLogEntryError, InvalidRangeSpecError
+from vsc.atools.utils import InvalidRangeSpecError
+from vsc.atools.log_parser import InvalidLogEntryError
 
 
 def parse_log_line(line):
