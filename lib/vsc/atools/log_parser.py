@@ -14,7 +14,7 @@ class InvalidLogEventError(Exception):
     def __init__(self, event_type):
         super(InvalidLogEventError, self).__init__()
         self._event_type
-        self.errno = 30
+        self.errno = 31
 
     def __str__(self):
         return "event type '{0}' is invalid".format(self._event_type)
@@ -27,7 +27,7 @@ class InvalidLogEntryError(Exception):
         '''Constructor for the exception on the log entry'''
         super(InvalidLogEntryError, self).__init__()
         self._log_line = log_line
-        self.errno = 1
+        self.errno = 32
 
     def __str__(self):
         msg = "log line '{0}' is invalid"

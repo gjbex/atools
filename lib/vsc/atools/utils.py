@@ -16,7 +16,7 @@ class EndOfFileError(ArrayToolsError):
         super(EndOfFileError, self).__init__()
         self._id = data_id
         self._row_nr = row_nr
-        self.errno = 1
+        self.errno = 21
 
     def __str__(self):
         '''string representation for the exception'''
@@ -32,7 +32,7 @@ class EnvVarError(ArrayToolsError):
         var_name'''
         super(EnvVarError, self).__init__()
         self._var_name = var_name
-        self.errno = 1
+        self.errno = 22
 
     def __str__(self):
         msg = "enviroment variable '{0}' not defined"

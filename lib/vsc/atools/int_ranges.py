@@ -12,7 +12,7 @@ class InvalidRangeSpecError(ArrayToolsError):
         '''Constructor for the exception on the range specification'''
         super(InvalidRangeSpecError, self).__init__()
         self._range_spec = range_spec
-        self.errno = 21
+        self.errno = 41
 
     def __str__(self):
         msg = "range specification '{0}' is invalid"
