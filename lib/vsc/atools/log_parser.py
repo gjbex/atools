@@ -5,11 +5,14 @@ from operator import attrgetter
 import re
 import sys
 
+from vsc.atools.ArrayToolsError
+
 
 class InvalidLogEventError(Exception):
     '''Exception that signals a problem when creating a new alog event'''
 
     def __init__(self, event_type):
+        super(InvalidLogEventError, self).__init__()
         self._event_type
         self.errno = 30
 
@@ -22,6 +25,7 @@ class InvalidLogEntryError(Exception):
 
     def __init__(self, log_line):
         '''Constructor for the exception on the log entry'''
+        super(InvalidLogEntryError, self).__init__()
         self._log_line = log_line
         self.errno = 1
 
