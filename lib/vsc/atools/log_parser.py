@@ -41,7 +41,7 @@ class LogEvent(object):
     date_fmt = '%Y-%m-%d %H:%M:%S'
 
     def __init__(self, time_stamp, event_type, item_id, slave_id,
-                 exit_status):
+                 exit_status=None):
         '''Constructor with event type, item number, slave ID, time stamp,
         and, if applicable, exit status'''
         if event_type not in LogEvent.event_types:
