@@ -4,6 +4,14 @@ supported by a resource manager such as PBS torque, or a scheduler such
 as Moab (Adaptive Computing).
 
 
+## Important note
+If you use job arrays on a HPC system that accounts for compute time,
+remmeber that each job in the array is account as an individual job.
+Depending on the number of cores used by a job, this may increase the
+cost by a large factor compared to using the
+[worker framework](https://github.com/gjbex/worker).
+
+
 ## Description and how to use
 Job arrays are intended to perform a potentially large number of similar,
 but independent tasks.  An individual task is identified by a shell
