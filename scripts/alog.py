@@ -8,6 +8,7 @@ import socket
 import sys
 import time
 
+from vsc.atools.log_parser import LogEvent
 from vsc.atools.utils import EnvVarError
 
 
@@ -31,8 +32,9 @@ def create_start_msg():
     except KeyError as error:
         raise EnvVarError(error.args[0])
     hostname = socket.gethostname()
-    return '{0} started by {1} at {2}'.format(work_item_id, hostname,
-                                              time.asctime())
+    time_stamp = time.strftime(LogEvent.date_fmt, time.localtime())
+    event = LogEvent(time_stamp, 'started', work_item_id, hostname)
+    return str(event)
 
 
 def create_end_msg(exit_code):
@@ -42,15 +44,14 @@ def create_end_msg(exit_code):
     except KeyError as error:
         raise EnvVarError(error.args[0])
     hostname = socket.gethostname()
+    time_stamp = time.strftime(LogEvent.date_fmt, time.localtime())
     if exit_code == 0:
-        return '{0} completed by {1} at {2}'.format(work_item_id,
-                                                    hostname,
-                                                    time.asctime())
+        event_type = 'completed'
     else:
-        return '{0} failed by {1} at {2}: {3:d}'.format(work_item_id,
-                                                        hostname,
-                                                        time.asctime(),
-                                                        exit_code)
+        event_type = 'failed'
+    event = LogEvent(time_stamp, event_type, work_item_id, hostname,
+                     exit_code)
+    return str(event)
 
 if __name__ == '__main__':
     arg_parser = ArgumentParser(description='Work item logger')
