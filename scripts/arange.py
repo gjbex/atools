@@ -65,8 +65,8 @@ def compute_data_ids(options):
     nr_work_items = sys.maxsize
     for filename in options.data:
         with open(filename, 'r') as csv_file:
-            sniffer = csv.sniffer()
-            dialect = Sniffer.sniff(csv_file.read(options.sniff))
+            sniffer = csv.Sniffer()
+            dialect = sniffer.sniff(csv_file.read(options.sniff))
             csv_file.seek(0)
             csv_reader = csv.DictReader(csv_file, fieldnames=None,
                                         restkey='rest',
@@ -140,4 +140,4 @@ if __name__ == '__main__':
             sys.stderr.write(msg)
             sys.exit(error.errno)
     else:
-        print('1-{0:d}'.format(nr_work_items))
+        print(compute_ranges(todo))
