@@ -39,15 +39,3 @@ class EnvVarError(ArrayToolsError):
         return msg.format(self._var_name)
 
 
-class InvalidRangeSpecError(ArrayToolsError):
-    '''Exception to signal an invalid array ID range specification'''
-
-    def __init__(self, range_spec):
-        '''Constructor for the exception on the range specification'''
-        super(InvalidRangeSpecError, self).__init__()
-        self._range_spec = range_spec
-        self.errno = 21
-
-    def __str__(self):
-        msg = "range specification '{0}' is invalid"
-        return msg.format(self._range_spec)

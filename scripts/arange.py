@@ -5,60 +5,9 @@ import csv
 import re
 import sys
 
-from vsc.atools.utils import InvalidRangeSpecError
+from vsc.atools.int_ranges import (int_ranges2set, set2int_ranges,
+                                   InvalidRangeSpecError)
 from vsc.atools.log_parser import LogParser, InvalidLogEntryError
-
-
-def parse_log_line(line):
-    '''Retrieve array ID from log line'''
-    match = re.match(r'(\d+)\s+', line)
-    if match:
-        return int(match.group(1))
-    else:
-        raise InvalidLogEntryError(line.rstrip())
-
-
-def compute_set(ranges):
-    '''compute the set of array iDs encoded by a range string'''
-    ids = set()
-    part_ranges = ranges.split(',')
-    for part_range in part_ranges:
-        if part_range.isdigit():
-            ids.add(int(part_range))
-            continue
-        match = re.search(r'^(\d+)-(\d+)$', part_range)
-        if match:
-            lower = int(match.group(1))
-            upper = int(match.group(2))
-            if lower <= upper:
-                for i in xrange(lower, upper + 1):
-                    ids.add(i)
-                continue
-        raise InvalidRangeSpecError(part_range)
-    return ids
-
-
-def compute_ranges(todo):
-    '''Compute the ranges of arrays IDs that are still to do'''
-    todo_list = sorted(todo)
-    ranges = []
-    if todo_list:
-        range_min = todo_list.pop(0)
-        previous = range_min
-        while todo_list:
-            item = todo_list.pop(0)
-            if previous + 1 != item:
-                if range_min != previous:
-                    ranges.append('{0:d}-{1:d}'.format(range_min, previous))
-                else:
-                    ranges.append('{0:d}'.format(range_min))
-                range_min = item
-            previous = item
-        if range_min != previous:
-            ranges.append('{0:d}-{1:d}'.format(range_min, previous))
-        else:
-            ranges.append('{0:d}'.format(range_min))
-    return ','.join(ranges)
 
 
 def compute_data_ids(options):
@@ -81,7 +30,7 @@ def compute_data_ids(options):
 
 
 def compute_t_ids(options):
-    return compute_set(options.t)
+    return int_ranges2set(options.t)
 
 
 if __name__ == '__main__':
@@ -139,4 +88,4 @@ if __name__ == '__main__':
             msg = '### IOError: {0}'.format(str(error))
             sys.stderr.write(msg)
             sys.exit(error.errno)
-    print(compute_ranges(todo))
+    print(set2int_ranges(todo))
