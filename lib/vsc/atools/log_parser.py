@@ -6,7 +6,6 @@ import re
 import sys
 
 from vsc.atools.utils import ArrayToolsError
-from vsc.atools.log_parser import LogEvent
 
 
 class InvalidLogEventError(Exception):
