@@ -2,6 +2,7 @@
 work done'''
 
 import csv 
+import sys
 
 from vsc.atools.utils import ArrayToolsError
 
@@ -39,27 +40,26 @@ def compute_items_todo(data_files, t_str, log_files, must_redo=False,
                     nr_work_items = row_nr
         return set(xrange(1, nr_work_items + 1))
     if data_files and t_str:
-        return compute_data_ids(data_files, sniff) & int_ranges2set(t_str)
+        todo = compute_data_ids(data_files, sniff) & int_ranges2set(t_str)
     elif data_files:
-        return compute_data_ids(data_files, sniff)
+        todo = compute_data_ids(data_files, sniff)
     elif t_str:
-        return int_ranges2set(t_str)
+        todo = int_ranges2set(t_str)
     else:
         raise MissingSourceError('compute_todo')
+    completed = set()
+    failed = set()
     if log_files:
-        completed = set()
-        failed = set()
-        try:
-            for filename in log_files:
-                log_parser = LogParser()
-                events = log_parser.parse(filename)
-                for event in events:
-                    if event.type == 'completed':
-                        todo.discard(event.item_id)
-                        completed.add(event.item_id)
-                    elif event.type == 'failed':
-                        failed.add(event.item_id)
-            if not must_redo:
-                failed -= completed
-                todo -= failed
+        for filename in log_files:
+            log_parser = LogParser()
+            events = log_parser.parse(filename)
+            for event in events:
+                if event.type == 'completed':
+                    todo.discard(event.item_id)
+                    completed.add(event.item_id)
+                elif event.type == 'failed':
+                    failed.add(event.item_id)
+        if not must_redo:
+            failed -= completed
+            todo -= failed
     return todo, completed, failed
