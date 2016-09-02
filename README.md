@@ -92,6 +92,15 @@ The output can be used as an argument for the `-t` option of `qsub` or
 to also redo failed computations, add the `--redo` option to the `arange`
 call.
 
+`arange` doubles as a job summary utility that can be used as soon as a
+log file is created, so also for a job in progress.  Adding the `--summary`
+flag will print the number of tasks completed, failed, and still to do.
+```bash
+$ arange --data data.csv --log my_job.pbs.log94894 --summary
+```
+The `--list_failed` and `--list_completed` options will explicitely show
+the array ranges for those categories.
+
 Help on all command can be obtained using the `--help` option.
 
 
