@@ -30,7 +30,7 @@ then
 fi
 
 # load the Python interpeter from the config file
-source "${DIR}/../conf/atools.conf"
+source "${DIR}/../conf/atools_python.sh
 
 # add scripts and lib directory to PYTHONPATH
 if [ -z "${VSC_MODULE_DEPENDENCIES_SCRIPTS_DIR}" ]
