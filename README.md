@@ -19,9 +19,11 @@ variable identifying the task, and can be used to determine task specific
 aspects such as input/output, or parameters.
 
 Each batch system defines its own environment variable, i.e.,
+
 1. PBS torque: `PBS_ARRAYID`
 1. Adaptive Computing Moab: `MOAB_JOBARRAYINDEX`
 1. SUN Grid Engine: `SGE_TASK_ID`
+
 The command line options to specify a job array on the command line is
 `-t` for all these batch systems though.
 The example below is specific to PBS torque, and should be modified
