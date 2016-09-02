@@ -6,7 +6,7 @@ as Moab (Adaptive Computing) and SUN Grid Engine.
 
 ## Important note
 If you use job arrays on a HPC system that accounts for compute time,
-remmeber that each job in the array is account as an individual job.
+remember that each job in the array is account as an individual job.
 Depending on the number of cores used by a job, this may increase the
 cost by a large factor compared to using the
 [worker framework](https://github.com/gjbex/worker).
@@ -15,8 +15,17 @@ cost by a large factor compared to using the
 ## Description and how to use
 Job arrays are intended to perform a potentially large number of similar,
 but independent tasks.  An individual task is identified by a shell
-variable `PBS_ARRAYID`, which can be used to determine task specific
-aspects such as input or parameters.
+variable identifying the task, and can be used to determine task specific
+aspects such as input/output, or parameters.
+
+Each batch system defines its own environment variable, i.e.,
+1. PBS torque: `PBS_ARRAYID`
+1. Adaptive Computing Moab: `MOAB_JOBARRAYINDEX`
+1. SUN Grid Engine: `SGE_TASK_ID`
+The command line options to specify a job array on the command line is
+`-t` for all these batch systems though.
+The example below is specific to PBS torque, and should be modified
+appropriately for Adaptive Computing's Moab, or SUN Grid Engine
 
 Although this allows for a very broad spectrum of applications, it
 requires the user to write a lot of error-prone boiler plate code.
@@ -113,6 +122,12 @@ library.
 After dropping the directory wherever convenient, review the bash scripts
 in the `bin` directory to set a Python executable of your liking.
 
+Depending on the batch system you use, the `batch_system` option in
+`conf/atools.conf` should be changed to:
+* `torque` for PBS torque,
+* `moab` for Adaptive Computing Moab,
+* `sge` for SUN Grid Engine.
+
 
 ## FAQ
 1. `aenv` is neat, but I don't care about job arrays, can it still be used?
@@ -130,3 +145,16 @@ in the `bin` directory to set a Python executable of your liking.
 
     Remember to pass *all* relevant log files to `arange`, not only the
     last one.
+
+
+## Planned features
+In no particular order...
+* Improve documentation for use with SUN Grid Engine.
+* Conveniently combine output of an array job into a single file with and
+    without user specified reductor.
+* Load balance analysis based on the log file.
+
+
+## Change log
+
+### Release 1.0

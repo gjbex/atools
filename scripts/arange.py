@@ -28,6 +28,7 @@ if __name__ == '__main__':
                             help='list completed jobs when summarizing')
     arg_parser.add_argument('--sniff', type=int, default=1024,
                             help='number of bytes to sniff for CSV dialect')
+    arg_parser.add_argument('--conf', help='configuration file')
     options = arg_parser.parse_args()
     if options.summary and not options.log:
         msg = '### error: summary information requires log files\n'

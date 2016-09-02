@@ -5,6 +5,7 @@ import csv
 import os
 import sys
 
+from vsc.atools.config import get_var_config, ConfigFileError
 from vsc.atools.utils import EnvVarError, EndOfFileError
 
 
@@ -37,6 +38,7 @@ if __name__ == '__main__':
                             help='shell to generate defintions for')
     arg_parser.add_argument('--sniff', type=int, default=1024,
                             help='number of bytes to sniff for CSV dialect')
+    arg_parser.add_argument('--conf', help='configuration file')
     options = arg_parser.parse_args()
     formatters = {
         'bash': create_bash_statements,
@@ -44,12 +46,18 @@ if __name__ == '__main__':
         'tcsh': create_csh_statements,
         'csh': create_csh_statements,
     }
+    if options.conf:
+        conf_filename = options.conf
+    else:
+        conf_filename = os.path.join(os.path.dirname(__file__),
+                                     '..', 'conf', 'atools.conf')
     try:
+        var_names = get_var_config(conf_filename)
         if options.id:
             work_item_id = options.id
         else:
             try:
-                work_item_id = int(os.environ['PBS_ARRAYID'])
+                work_item_id = int(os.environ[var_names['array_idx_var']])
             except KeyError as error:
                 raise EnvVarError(error.args[0])
         for filename in options.data:
@@ -76,6 +84,10 @@ if __name__ == '__main__':
         sys.stderr.write(msg)
         sys.exit(error.errno)
     except EnvVarError as error:
+        msg = '### IOError: {0}'.format(str(error))
+        sys.stderr.write(msg)
+        sys.exit(error.errno)
+    except ConfigFileError as error:
         msg = '### IOError: {0}'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)
