@@ -4,6 +4,7 @@ work done'''
 import csv 
 import sys
 
+from vsc.atools.log_parser import LogParser
 from vsc.atools.utils import ArrayToolsError
 
 
