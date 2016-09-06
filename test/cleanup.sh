@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rm -f *.pbs.*
+rm -f *.pbs.* out-*.txt
