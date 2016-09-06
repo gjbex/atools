@@ -6,6 +6,7 @@ import subprocess
 import sys
 
 from vsc.atools.int_ranges import int_ranges2set, InvalidRangeSpecError
+from vsc.atools.config import get_mode_config, ConfigFileError
 
 
 if __name__ == '__main__':
@@ -13,7 +14,7 @@ if __name__ == '__main__':
                                             'tasks to a single file')
     arg_parser.add_argument('-t', help='array ID range to consider')
     arg_parser.add_argument('--pattern', help='file name pattern')
-    arg_parser.add_argument('--mode', choice=['text', 'csv'],
+    arg_parser.add_argument('--mode', choices=['text', 'csv'],
                             default='text',
                             help='predefined reduction mode to use')
     script_group = arg_parser.add_argument_group(title='reduction scripts')
@@ -46,33 +47,33 @@ if __name__ == '__main__':
                 mode = options.mode
             else:
                 mode = get_default_mode(options.conf)
-            empty_script, reduce_script = get_mode_config(config_filename,
+            empty_script, reduce_script = get_mode_config(conf_filename,
                                                           mode)
-            empty_filename = os.join(os.path.dirname(__file__), '..',
-                                     'reduce', empty_script)
-            reduce_filename = os.join(os.path.dirname(__file__), '..',
-                                     'reduce', reduce_script)
+            empty_filename = os.path.join(os.path.dirname(__file__), '..',
+                                          'reduce', empty_script)
+            reduce_filename = os.path.join(os.path.dirname(__file__), '..',
+                                           'reduce', reduce_script)
         array_ids = list(int_ranges2set(options.t))
         if not array_ids:
             sys.stderr.write('empty array ID set\n')
             sys.exit(0)
         array_ids.sort()
-        array_idx = 0
+        array_id_idx = 0
         while True:
-            filename = options.pattern.format(t=array_ids[array_idx])
-            if os.path.exits(filename):
-                subprocess.check_call(empty_filename, options.out,
-                                      filename)
+            filename = options.pattern.format(t=array_ids[array_id_idx])
+            if os.path.exists(filename):
+                subprocess.check_call([empty_filename, options.out,
+                                       filename])
                 break
             elif not options.quiet:
                 msg = "### warming: '{0}' does not exist\n".format(filename)
                 sys.stderr.write(msg)
             array_id_idx += 1
-        for array_id_idx in xrange(array_id_idx, len(array_ids) + 1):
-            filename = options.pattern.format(t=array_ids[array_idx])
+        for idx in xrange(array_id_idx, len(array_ids)):
+            filename = options.pattern.format(t=array_ids[idx])
             if os.path.exists(filename):
-                subprocess.check_call(reduce_filename, options.out,
-                                      filename)
+                subprocess.check_call([reduce_filename, options.out,
+                                       filename])
             elif not options.quiet:
                 msg = "### warming: '{0}' does not exist\n".format(filename)
                 sys.stderr.write(msg)
