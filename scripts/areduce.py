@@ -6,7 +6,8 @@ import subprocess
 import sys
 
 from vsc.atools.int_ranges import int_ranges2set, InvalidRangeSpecError
-from vsc.atools.config import get_mode_config, ConfigFileError
+from vsc.atools.config import (get_var_config, get_mode_config,
+                               ConfigFileError)
 
 
 if __name__ == '__main__':
@@ -40,6 +41,7 @@ if __name__ == '__main__':
         sys.stderr.write(msg)
         sys.exit(1)
     try:
+        var_names = get_var_config(conf_filename)
         if options.empty:
             empty_filename, reduce_filename = options.empty, options.reduce
         else:
@@ -60,7 +62,12 @@ if __name__ == '__main__':
         array_ids.sort()
         array_id_idx = 0
         while True:
-            filename = options.pattern.format(t=array_ids[array_id_idx])
+            array_id = array_ids[array_id_idx]
+            args = {
+                't': array_id,
+                var_names['array_idx_var']: array_id,
+            }
+            filename = options.pattern.format(**args)
             if os.path.exists(filename):
                 subprocess.check_call([empty_filename, options.out,
                                        filename])
@@ -70,7 +77,12 @@ if __name__ == '__main__':
                 sys.stderr.write(msg)
             array_id_idx += 1
         for idx in xrange(array_id_idx, len(array_ids)):
-            filename = options.pattern.format(t=array_ids[idx])
+            array_id = array_ids[idx]
+            args = {
+                't': array_id,
+                var_names['array_idx_var']: array_id,
+            }
+            filename = options.pattern.format(**args)
             if os.path.exists(filename):
                 subprocess.check_call([reduce_filename, options.out,
                                        filename])
