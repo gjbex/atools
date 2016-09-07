@@ -208,4 +208,9 @@ In no particular order...
 
 ## Change log
 
+### Release 1.1
+* Added `areduce` to easily aggregate individual task output into a single
+    file.
+* Minor bug fixes.
+
 ### Release 1.0
