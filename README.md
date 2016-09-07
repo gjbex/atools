@@ -33,6 +33,10 @@ Although this allows for a very broad spectrum of applications, it
 requires the user to write a lot of error-prone boiler plate code.
 `atools` is developed to handle this gracefully.
 
+Help on all command can be obtained using the `--help` option.
+
+
+### Parameter exploration
 The underlying assumption is that tasks are described in terms of a
 number of parameters, which form the rows of a CSV file.  The latter's
 first line contains the names of those parameters, e.g.,
@@ -75,6 +79,8 @@ $ qsub -t 1-4 my_job.pbs
 The subsequent values of `PBS_ARRAYID` will be used under to hood as a
 line index in the `data.csv` file.
 
+
+### Logging
 PBS torque will create individual output and error files from which it may
 be possible to gather statistics and exit status information, but again,
 this requires tinkering by the user. `atools` provides a straightforward
@@ -92,6 +98,8 @@ alog --state end --exit "$?"
 This will create a log file with a name following the pattern
 `<job-name>.log<job-id>`, so a single file for the entire array job.
 
+
+### Monitoring and resuming computations
 if `do_some_computation` in the previous examples fails, or the job is
 aborted for some reason, this log can be used to determine which
 computation have to be redone using `arange`, e.g.,
@@ -112,7 +120,48 @@ $ arange --data data.csv --log my_job.pbs.log94894 --summary
 The `--list_failed` and `--list_completed` options will explicitely show
 the array ranges for those categories.
 
-Help on all command can be obtained using the `--help` option.
+
+### Aggregating output
+Aggregating the output produced by each task can be somewhat annoying.  The
+`areduce` command helps to do this pretty effortlessly for many cases.
+As the name implies, the aggregation is done through reduction, the
+mathematical model is a monoid.
+A number of simple cases are preprogrammed, requiring no work from the
+user.  For instance, concatenation of text files and CSV files (for the
+latter, the field names have to be present only as the first line of the
+file, not replicated throughout the aggregated file.  More complicated
+aggregations, e.g., into an R dataframe required some programming.
+
+Suppose that the output of each task is stored in a file with name
+`out-{PBS_ARRAYID}.txt` where `PBS_ARRAYID` represents the array ID of
+the respective task, and the final output should be a file `out.txt` that
+is the concatenation of all the individual files.
+```bash
+$ areduce  -t 1-4  --pattern 'out-{PBS_ARRAYID}.txt'  --out out.txt
+```
+Although this could be easily achieved with `cat`, there are nevertheless
+advantages to using `areduce` even in this very simple case.  `areduce`
+handles missing files (failed tasks) gracefully, whereas the corresponding
+shell script would get somewhat tedious.  `areduce` also takes care of the
+proper order of the files, while this would be cumbersome to do by hand.
+
+If each of the output files were CSV files, the first line of each file
+would contain the field names, that in te aggregated file should occur
+only once as the first line.
+```bash
+$ areduce  -t 1-100  --pattern 'out-{t}.csv'  --out out.csv  --mode csv
+```
+The command above will produce the desired CSV file without any hassle.
+
+To handle more intresting cases, the user can supply two scripts that
+each take two arguments: the name of the resulting file, and the name of
+a single data file.  The first script creates an empty result file (in
+case of CSV data, that would be a file containing a sinle line with the
+field names).  The second appends the data file to the output file,
+respecting the semantics of the data.  The scripts to use can be passed
+to `areduce` using the `--empty` and `--reduce` options.
+
+Examples can be found in the `reduce` directory.
 
 
 ## Requirements
