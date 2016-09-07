@@ -152,6 +152,8 @@ only once as the first line.
 $ areduce  -t 1-100  --pattern 'out-{t}.csv'  --out out.csv  --mode csv
 ```
 The command above will produce the desired CSV file without any hassle.
+Note that the shorthand `t` for `PBS_ARRAYID` has been used in the file
+name pattern specification.
 
 To handle more intresting cases, the user can supply two scripts that
 each take two arguments: the name of the resulting file, and the name of
@@ -201,9 +203,8 @@ Depending on the batch system you use, the `batch_system` option in
 ## Planned features
 In no particular order...
 * Improve documentation for use with SUN Grid Engine.
-* Conveniently combine output of an array job into a single file with and
-    without user specified reductor.
 * Load balance analysis based on the log file.
+* Template based job script creation
 
 
 ## Change log
