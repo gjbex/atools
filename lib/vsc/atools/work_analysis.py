@@ -80,8 +80,9 @@ class LogAnalyzer(object):
         '''Create the database and its tables'''
         if not db_name:
             db_name = ':memory:'
+        must_init = not os.path.exists(db_name)
         self._conn = sqlite3.connect(db_name)
-        if not os.path.exists(db_name):
+        if must_init:
             self.init()
 
     def init(self):
@@ -166,7 +167,8 @@ class LogAnalyzer(object):
                    MIN(e.end_time - s.start_time),
                    MAX(e.end_time - s.start_time)
                 FROM work_items AS s, results AS e
-                WHERE s.work_item = e.work_item{0};'''.format(no_failed)
+                WHERE s.item_id = e.item_id{0};'''.format(no_failed)
+        cursor = self._conn.cursor()
         return cursor.execute(sql).fetchone()
 
     def slave_stats(self, exclude_failed=False):
@@ -174,13 +176,14 @@ class LogAnalyzer(object):
         the minimum, average, and maximum run time'''
         no_failed = ' AND e.exit_code = 0' if exclude_failed else ''
         sql = '''
-            SELECT COUNT(t.worker_id) AS 'nr. workers',
-                   AVG(t.time) AS 'average time per work item',
-                   MIN(t.time) AS 'minimum time for work item',
-                   MAX(t.time) AS 'maximum time for work item'
-                FROM (SELECT s.worker_id AS worker_id,
+            SELECT COUNT(t.slave_id) AS 'nr. slaves',
+                   AVG(t.time) AS 'average time per task',
+                   MIN(t.time) AS 'minimum time for task',
+                   MAX(t.time) AS 'maximum time for task'
+                FROM (SELECT s.slave_id AS slave_id,
                              e.end_time - s.start_time AS time
                           FROM work_items AS s, results AS e
-                          WHERE s.work_item = e.work_item{0}
-                          GROUP BY s.worker_id) AS t;'''.format(no_failed)
+                          WHERE s.item_id = e.item_id{0}
+                          GROUP BY s.slave_id) AS t;'''.format(no_failed)
+        cursor = self._conn.cursor()
         return cursor.execute(sql).fetchone()
