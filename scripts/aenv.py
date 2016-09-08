@@ -80,14 +80,14 @@ if __name__ == '__main__':
         sys.stderr.write(msg)
         sys.exit(error.errno)
     except EndOfFileError as error:
-        msg = '### IOError: {0}'.format(str(error))
+        msg = '### error: {0}'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)
     except EnvVarError as error:
-        msg = '### IOError: {0}'.format(str(error))
+        msg = '### error: {0}'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)
     except ConfigFileError as error:
-        msg = '### IOError: {0}'.format(str(error))
+        msg = '### error: {0}'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)
