@@ -2,11 +2,14 @@
 work done'''
 
 import csv 
+import math
 import os
 import sqlite3
 import sys
+import time
 
 from vsc.atools.log_parser import LogParser
+from vsc.atools.int_ranges import int_ranges2set
 from vsc.atools.utils import ArrayToolsError
 
 
@@ -17,6 +20,7 @@ class MissingSourceError(ArrayToolsError):
     def __init__(self, function_name):
         super(MissingSourceError, self).__init__()
         self._function_name = function_name
+        self.errno = 61
 
     def __str__(self):
         msg = "expecting data files and/or array range calling '{0}'"
@@ -72,8 +76,10 @@ class LogAnalyzer(object):
     '''Class representing a log analyzer, creating a SQLite3 database
     for the actual analysis'''
 
-    def __init__(self, db_name=':memory:'):
+    def __init__(self, db_name=None):
         '''Create the database and its tables'''
+        if not db_name:
+            db_name = ':memory:'
         self._conn = sqlite3.connect(db_name)
         if not os.path.exists(db_name):
             self.init()
@@ -82,8 +88,8 @@ class LogAnalyzer(object):
         cursor = self._conn.cursor()
         sql = '''
             CREATE TABLE work_items (
-                item_id   INTEGER    PRIMARY KEY,
-                slave_id   TEXT,
+                item_id     INTEGER    PRIMARY KEY,
+                slave_id    TEXT,
                 start_time  INTEGER
             );'''
         cursor.execute(sql)
@@ -96,30 +102,35 @@ class LogAnalyzer(object):
                     REFERENCES work_items (item_id)
             );'''
         cursor.execute(sql)
+        self._conn.commit()
 
     def reset(self):
         cursor = self._conn.cursor()
         for table in ['work_items', 'results']:
             cursor.execute('DROP TABLE ?', (table, ))
+        self._conn.commit()
         self.init()
 
-    def parse(self, filename)
+    def parse(self, filename):
         cursor = self._conn.cursor()
         log_parser = LogParser()
-        events = log_parser.parse(filename)
-        for event in events:
+        results_sql = '''
+            INSERT INTO results (item_id, exit_code, end_time)
+                VALUES (?, ?, strftime('%s', ?));'''
+        work_items_sql = '''
+            INSERT INTO work_items (item_id, slave_id, start_time)
+                VALUES (?, ?, strftime('%s', ?));'''
+        for event in log_parser.parse(filename):
             if event.type == 'completed' or event.type == 'failed':
-                sql = '''
-                    INSERT INTO work_tiems (item_id, slave_id, end_time)
-                        VALUES (?, ?, ?);'''
-                cursor.execute(sql, (event.item_id, event.slave_id,
-                                     event.timestamp))
+                cursor.execute(results_sql, (event.item_id,
+                                             event.exit_status,
+                                             event.time_stamp))
             else:
-                sql = '''
-                    INSERT INTO results (item_id, exit_code, end_time)
-                        VALUES (?, ?, ?);'''
-                cursor.execute(sql, (event.item_id, event.exit_code,
-                                     event.timestamp))
+                cursor.execute(work_items_sql, (event.item_id,
+                                                event.slave_id,
+                                                event.time_stamp))
+        self._conn.commit()
+
     def item_times(self, exclude_failed=False):
         '''returns a list of tuples with the item IDs, slave IDx, and the
          run time in seconds'''
@@ -128,12 +139,22 @@ class LogAnalyzer(object):
             SELECT s.item_id, s.slave_id, e.end_time - s.start_time
                 FROM work_items AS s, results AS e
                 WHERE s.item_id = e.item_id{0}
-                ORDER BY s.work_item;'''.format(no_failed)
+                ORDER BY s.item_id;'''.format(no_failed)
         cursor = self._conn.cursor()
         return cursor.execute(sql).fetchall()
                                                
     def slave_times(self, exclude_failed=False):
-        pass
+        '''returns a list of tuples with the slave IDs, run time in
+        seconds, and the number of items computed by the slave'''
+        no_failed = ' AND e.exit_code = 0' if exclude_failed else ''
+        sql = '''
+            SELECT s.slave_id, sum(e.end_time - s.start_time), count(*)
+                FROM work_items AS s, results AS e
+                WHERE s.item_id = e.item_id{0}
+                GROUP BY s.slave_id
+                ORDER BY s.slave_id;'''.format(no_failed)
+        cursor = self._conn.cursor()
+        return cursor.execute(sql).fetchall()
 
     def item_stats(self, exclude_failed=False):
         '''returns a tuple containing the number of items computed,
@@ -148,7 +169,7 @@ class LogAnalyzer(object):
                 WHERE s.work_item = e.work_item{0};'''.format(no_failed)
         return cursor.execute(sql).fetchone()
 
-    def salve_stats(self, exclude_failed=False);
+    def slave_stats(self, exclude_failed=False):
         '''returns a tuple containing the number of items computed,
         the minimum, average, and maximum run time'''
         no_failed = ' AND e.exit_code = 0' if exclude_failed else ''
