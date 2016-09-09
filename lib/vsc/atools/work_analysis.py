@@ -149,7 +149,7 @@ class LogAnalyzer(object):
         seconds, and the number of items computed by the slave'''
         no_failed = ' AND e.exit_code = 0' if exclude_failed else ''
         sql = '''
-            SELECT s.slave_id, sum(e.end_time - s.start_time), count(*)
+            SELECT s.slave_id, SUM(e.end_time - s.start_time), COUNT(*)
                 FROM work_items AS s, results AS e
                 WHERE s.item_id = e.item_id{0}
                 GROUP BY s.slave_id
@@ -165,7 +165,8 @@ class LogAnalyzer(object):
             SELECT COUNT(*),
                    AVG(e.end_time - s.start_time),
                    MIN(e.end_time - s.start_time),
-                   MAX(e.end_time - s.start_time)
+                   MAX(e.end_time - s.start_time),
+                   SUM(e.end_time - s.start_time)
                 FROM work_items AS s, results AS e
                 WHERE s.item_id = e.item_id{0};'''.format(no_failed)
         cursor = self._conn.cursor()
@@ -179,7 +180,8 @@ class LogAnalyzer(object):
             SELECT COUNT(t.slave_id) AS 'nr. slaves',
                    AVG(t.time) AS 'average time per task',
                    MIN(t.time) AS 'minimum time for task',
-                   MAX(t.time) AS 'maximum time for task'
+                   MAX(t.time) AS 'maximum time for task',
+                   SUM(t.time) AS 'total time'
                 FROM (SELECT s.slave_id AS slave_id,
                              e.end_time - s.start_time AS time
                           FROM work_items AS s, results AS e
