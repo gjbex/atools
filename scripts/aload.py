@@ -34,21 +34,27 @@ def show_slave_times(analyzer, csv_format=False):
 
 def show_item_stats(analyzer):
     results = analyzer.item_stats(options.no_failed)
-    fmt_str = '''
-        nr. tasks: {0:d}
-        avg. time (s): {1:.2f}
-        min. time (s): {2:d}
-        max. time (s): {3:d}'''
+    fmt_str = (
+        '\tnr. tasks:     {0:d}\n'
+        '\tavg. time (s): {1:.2f}\n'
+        '\tmin. time (s): {2:d}\n'
+        '\tmax. time (s): {3:d}\n'
+        '\ttot. taime (): {4:d}'
+    )
+    print('task statistics:')
     print(fmt_str.format(*results))
 
 
 def show_slave_stats(analyzer):
     results = analyzer.slave_stats(options.no_failed)
-    fmt_str = '''
-        nr. slaves: {0:d}
-        avg. time (s): {1:.2f}
-        min. time (s): {2:d}
-        max. time (s): {3:d}'''
+    fmt_str = (
+        '\tnr. slaves:    {0:d}\n'
+        '\tavg. time (s): {1:.2f}\n'
+        '\tmin. time (s): {2:d}\n'
+        '\tmax. time (s): {3:d}\n'
+        '\ttot. taime (): {4:d}'
+    )
+    print('slave statistics:')
     print(fmt_str.format(*results))
 
 if __name__ == '__main__':
@@ -59,12 +65,11 @@ if __name__ == '__main__':
                             help='exclude failed tasks from analysis')
     arg_parser.add_argument('--csv', action='store_true',
                             help='CSV output format')
-    arg_parser.add_argument('--list_tasks', action='store_true',
-                            help='show all task information')
-    arg_parser.add_argument('--list_slaves', action='store_true',
-                            help='show all slave information')
-    arg_parser.add_argument('--no_summary', action='store_true',
-                            help='do not show summary information')
+    lists = arg_parser.add_mutually_exclusive_group()
+    lists.add_argument('--list_tasks', action='store_true',
+                       help='show all task information')
+    lists.add_argument('--list_slaves', action='store_true',
+                       help='show all slave information')
     arg_parser.add_argument('--db', help='SQLite3 database file name')
     arg_parser.add_argument('--conf', help='configuration file')
     options = arg_parser.parse_args()
@@ -74,9 +79,9 @@ if __name__ == '__main__':
             analyzer.parse(log_filename)
         if options.list_tasks:
             show_item_times(analyzer, options.csv)
-        if options.list_slaves:
+        elif options.list_slaves:
             show_slave_times(analyzer, options.csv)
-        if not options.no_summary:
+        else:
             show_item_stats(analyzer)
             show_slave_stats(analyzer)
     except IOError as error:
