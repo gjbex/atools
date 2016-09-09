@@ -183,7 +183,7 @@ class LogAnalyzer(object):
                 FROM (SELECT s.slave_id AS slave_id,
                              e.end_time - s.start_time AS time
                           FROM work_items AS s, results AS e
-                          WHERE s.item_id = e.item_id{0}
-                          GROUP BY s.slave_id) AS t;'''.format(no_failed)
+                          WHERE s.item_id = e.item_id{0}) AS t
+                GROUP BY t.slave_id;'''.format(no_failed)
         cursor = self._conn.cursor()
         return cursor.execute(sql).fetchone()
