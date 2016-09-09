@@ -56,14 +56,14 @@ if __name__ == '__main__':
         sys.stderr.write(msg)
         sys.exit(error.errno)
     except InvalidRangeSpecError as error:
-        msg = '### IOError: {0}'.format(str(error))
+        msg = '### error: {0}'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)
     except MissingSourceError as error:
-        msg = '### IOError: {0}'.format(str(error))
+        msg = '### error: {0}'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)
     except InvalidLogEntryError as error:
-        msg = '### IOError: {0}'.format(str(error))
+        msg = '### error: {0}'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)
