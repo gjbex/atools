@@ -1,6 +1,15 @@
 #!/bin/bash
 
-source ../conf/atools_python.sh
-export PYTHONPATH="../lib:${PYTHONPATH}"
+# determine true location of Bash script
+exec=$(readlink -f ${0})
 
-python -m unittest discover -p '*_test.py'
+# determine directory of vsc-module-dependencies
+DIR=$( cd -P "$( dirname "${exec}" )" && pwd )
+
+echo $DIR
+
+source ${DIR}/../conf/atools_python.sh
+export PYTHONPATH="${DIR}/../lib:${PYTHONPATH}"
+
+cd  "${DIR}"
+${PYTHON} -m unittest discover -p '*_test.py'
