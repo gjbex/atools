@@ -17,6 +17,15 @@ class TestLogParser(unittest.TestCase):
         except InvalidLogEntryError:
             pass
 
+    def test_invalid_event_type(self):
+        from vsc.atools.log_parser import LogEvent, InvalidLogEventError
+        event_str = '4 flabbered by r1i1n3 at 2016-09-02 11:47:46'
+        try:
+            _ = LogEvent.parse_str(event_str)
+            self.assertTrue(False)
+        except InvalidLogEventError:
+            pass
+
     def test_start_event(self):
         from vsc.atools.log_parser import LogEvent
         expected_type = 'started'
@@ -59,6 +68,39 @@ class TestLogParser(unittest.TestCase):
         self.assertEquals(expected_slave_id, event.slave_id)
         self.assertEquals(expected_time, event.time_stamp)
         self.assertEquals(expected_exit_status, event.exit_status)
+
+    def test_parse_file(self):
+        from vsc.atools.log_parser import LogParser
+        expected_nr_events = 18
+        expected_nr_started = 10
+        expected_nr_completed = 3
+        expected_nr_failed = 5
+        file_name = 'data/test.log'
+        log_parser = LogParser()
+        events = log_parser.parse(file_name)
+        self.assertEquals(expected_nr_events, len(events))
+        self.assertEquals(expected_nr_started,
+                          len(filter(lambda x: x.type == 'started',
+                                     events)))
+        self.assertEquals(expected_nr_completed,
+                          len(filter(lambda x: x.type == 'completed',
+                                     events)))
+        self.assertEquals(expected_nr_failed,
+                          len(filter(lambda x: x.type == 'failed',
+                                     events)))
+        last_time = datetime.now()
+        for event in reversed(events):
+            self.assertTrue(last_time >= event.time_stamp)
+            last_time = event.time_stamp
+
+    def test_parse_non_existent(self):
+        from vsc.atools.log_parser import LogParser
+        log_parser = LogParser()
+        try:
+            events = log_parser.parse('blabla')
+            self.assertTrue(False)
+        except IOError:
+            pass 
 
 
 if __name__ == '__main__':
