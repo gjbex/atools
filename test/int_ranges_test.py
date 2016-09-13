@@ -2,7 +2,8 @@
 
 import unittest
 
-from vsc.atools.int_ranges import int_ranges2set, InvalidRangeSpecError
+from vsc.atools.int_ranges import (int_ranges2set, InvalidRangeSpecError,
+                                   set2int_ranges)
 
 
 class TestIntRanges(unittest.TestCase):
@@ -45,6 +46,32 @@ class TestIntRanges(unittest.TestCase):
         except InvalidRangeSpecError:
             pass
 
-    
+    def test_singletno2range(self):
+        expected_range = '3'
+        int_range = set2int_ranges(set([3]))
+        self.assertEqual(expected_range, int_range)
+
+    def test_empty2range(self):
+        expected_range = ''
+        int_range = set2int_ranges(set())
+        self.assertEqual(expected_range, int_range)
+
+    def test_contiguous2range(self):
+        expected_range = '3-8'
+        int_range = set2int_ranges(set(xrange(3, 9)))
+        self.assertEqual(expected_range, int_range)
+
+    def test_multiple2range(self):
+        expected_range = '3-8,11-13'
+        int_range = set2int_ranges(set(range(3, 9) + range(11, 14)))
+        self.assertEqual(expected_range, int_range)
+
+    def test_multiple_singleton_range(self):
+        expected_range = '1,3-8,11,15-19,23'
+        range_set = set(range(3, 9) + range(15, 20) + [1, 11, 23])
+        int_range = set2int_ranges(range_set)
+        self.assertEqual(expected_range, int_range)
+
+
 if __name__ == '__main__':
     unittest.main()
