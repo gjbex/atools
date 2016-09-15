@@ -1,1 +1,1 @@
-SUBDIRS = bin conf lib reduce scripts
+SUBDIRS = bin conf lib reduce
