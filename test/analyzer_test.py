@@ -64,6 +64,22 @@ class TestWorkAnalysis(unittest.TestCase):
         self.assertEquals(expected_failed, failed)
         self.assertEquals(expected_completed, completed)
 
+    def test_analysis(self):
+        expeted_nr_items = 8
+        expeted_nr_slaves = 1
+        expected_slave = 'r1i1n3'
+        from vsc.atools.work_analysis import LogAnalyzer
+        log_file = 'data/test.log'
+        analyzer = LogAnalyzer()
+        analyzer.parse(log_file)
+        item_times = analyzer.item_times()
+        self.assertEquals(expeted_nr_items, len(item_times))
+        slave_times = analyzer.slave_times()
+        self.assertEquals(expeted_nr_slaves, len(slave_times))
+        self.assertEquals(expected_slave, slave_times[0][0])
+        total_time = sum([item[2] for item in item_times])
+        self.assertEquals(slave_times[0][1], total_time)
+                 
 
 if __name__ == '__main__':
     unittest.main()
