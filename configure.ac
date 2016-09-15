@@ -8,6 +8,5 @@ AC_CONFIG_FILES([
     lib/vsc/Makefile
     lib/vsc/atools/Makefile
     reduce/Makefile
-    scipts/Makefile
 ])
 AC_OUTPUT
