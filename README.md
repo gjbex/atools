@@ -190,8 +190,14 @@ library.
 
 
 ## Installing
-After dropping the directory wherever convenient, review the bash scripts
-in the `bin` directory to set a Python executable of your liking.
+After downloading and unpacking, simply run
+```bash
+$ ./configure --prefix=<install-path>
+$ make install
+```
+Note: atools will be configured to use the Python that is in your PATH
+when installing.  If you change your mind afterwards, edit
+`conf/atools_python.sh` to your liking.
 
 Depending on the batch system you use, the `batch_system` option in
 `conf/atools.conf` should be changed to:
@@ -222,10 +228,13 @@ Depending on the batch system you use, the `batch_system` option in
 In no particular order...
 * Improve documentation for use with SUN Grid Engine.
 * Template based job script creation
-* Add unit tests
 
 
 ## Change log
+
+### Release 1.3
+* Added unit testing for all modules
+* Improved installation procedure
 
 ### Release 1.2
 * Added `aload` to easily analyse load balance and task run time
