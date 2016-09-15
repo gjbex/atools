@@ -27,7 +27,7 @@ class MissingSourceError(ArrayToolsError):
         return msg.format(self._function_name)
 
 
-def _compute_data_ids(daata_files, sniff=1024):
+def _compute_data_ids(data_files, sniff=1024):
     nr_work_items = sys.maxsize
     for filename in data_files:
         with open(filename, 'r') as csv_file:
