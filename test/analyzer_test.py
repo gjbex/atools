@@ -65,7 +65,5 @@ class TestWorkAnalysis(unittest.TestCase):
         self.assertEquals(expected_completed, completed)
 
 
-
-
 if __name__ == '__main__':
     unittest.main()
