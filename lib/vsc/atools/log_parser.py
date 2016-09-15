@@ -13,7 +13,7 @@ class InvalidLogEventError(Exception):
 
     def __init__(self, event_type):
         super(InvalidLogEventError, self).__init__()
-        self._event_type
+        self._event_type = event_type
         self.errno = 31
 
     def __str__(self):

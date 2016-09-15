@@ -37,5 +37,3 @@ class EnvVarError(ArrayToolsError):
     def __str__(self):
         msg = "enviroment variable '{0}' not defined"
         return msg.format(self._var_name)
-
-

@@ -1,2 +1,1 @@
-*.pbs.*
-out-*.txt
+*.pyc
