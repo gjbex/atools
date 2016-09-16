@@ -1,1 +1,8 @@
-site_name: My Docs
+site_name: atools (Job array tools) documentation
+site_description: atools is a set of utilities for using job arrays in a very convenient way.
+site_author: Geert Jan Bex
+pages:
+- Introduction and motivation: 'index.md'
+- Getting your parameters: 'aenv.md'
+site_dir: html_docs/atools
+theme: readthedocs

@@ -1,17 +1,32 @@
-# Welcome to MkDocs
+# Welcome to the atools (Job Array Tools) documentation
 
-For full documentation visit [mkdocs.org](http://mkdocs.org).
+`atools` has been designed to conveniently deal with job arrays, a feature
+supported by many queue systems and schedulers.  A job array consists of
+a (potentially large) number of individual tasks that can be run in
+parallel, independent of one another.
 
-## Commands
+Typically, these tasks originate from a few scenarios such as
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
+* performing the same computation on many input files, or
+* running an algorithm with many different parameter sets.
 
-## Project layout
+`atools` in cmmbination with a queue system or scheduler will allow you
+to conveniently handle such MapReduce scenarios without the overhead,
+both in terms of computation and setup of systems such as Hadoop or
+Spark.
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+Currently, `atools` supports PBS torque, Adaptive Computing Moab and
+SUN Grid Engine, but extending the list to other resource managers and
+schedulers should be easy if they support a feature similar in spirit to
+job arrays.
+
+This documentation provides a walk through of the featues, and serves as
+a reference for the more arcane featues.  Topics:
+
+* instantiating parameter values per task (using [`aenv`](aenv.md)),
+* logging task start and completion information (using `alog`),
+* resuming computations if not all tasks were completed (using `arange`),
+* analysing task run times and load balance (using `aload`).
+
+`atools` is an open source project hosted on
+[GitHub](https://github.com/gjbex/atools).
