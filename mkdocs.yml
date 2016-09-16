@@ -4,5 +4,6 @@ site_author: Geert Jan Bex
 pages:
 - Introduction and motivation: 'index.md'
 - Getting your parameters: 'aenv.md'
+- Logging for fun and profit: 'alog.md'
 site_dir: html_docs/atools
 theme: readthedocs
