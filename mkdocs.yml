@@ -5,6 +5,9 @@ pages:
 - Introduction and motivation: 'index.md'
 - Getting your parameters: 'aenv.md'
 - Logging for fun and profit: 'alog.md'
+- Resuming tasks and monitoring jobs: 'arange.md'
 - Contact and support: 'contact.md'
+- FAQ: 'faq.md'
+- Change log: 'changes.md'
 site_dir: html_docs/atools
 theme: readthedocs
