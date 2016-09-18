@@ -85,6 +85,8 @@ if __name__ == '__main__':
             elif not options.quiet:
                 msg = "### warming: '{0}' does not exist\n".format(filename)
                 sys.stderr.write(msg)
+            if options.rm_orig:
+                os.remove(filename)
     except subprocess.CalledProcessError as error:
         msg = '### Subprocess error: {0}\n'.format(str(error))
         sys.stderr.write(msg)
