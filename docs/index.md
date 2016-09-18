@@ -24,9 +24,10 @@ This documentation provides a walk through of the featues, and serves as
 a reference for the more arcane featues.  Topics:
 
 * instantiating parameter values per task (using [`aenv`](aenv.md)),
-* logging task start and completion information (using `alog`),
-* resuming computations if not all tasks were completed (using `arange`),
-* analysing task run times and load balance (using `aload`).
+* logging task start and completion information (using [`alog`](alog.md)),
+* resuming computations if not all tasks were completed
+    (using [`arange`](arange.md)),
+* analysing task run times and load balance (using [`aload`](aload.md)).
 
 `atools` is an open source project hosted on
 [GitHub](https://github.com/gjbex/atools).
