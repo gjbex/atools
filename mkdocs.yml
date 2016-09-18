@@ -7,6 +7,7 @@ pages:
 - Getting your parameters: 'aenv.md'
 - Logging for fun and profit: 'alog.md'
 - Monitoring jobs and resuming tasks: 'arange.md'
+- Gathering output: 'areduce.md'
 - Detailed job statistics: 'aload.md'
 - Contact and support: 'contact.md'
 - FAQ: 'faq.md'
