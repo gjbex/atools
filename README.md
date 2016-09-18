@@ -237,6 +237,7 @@ In no particular order...
 * Improved installation procedure, now uses autotools.
 * Added documentation.
 * Bug fixes to aload.
+* Implemented `--rm_orig` in `areduce`.
 
 ## Release 1.2
 * Added `aload` to easily analyse load balance and task run time
