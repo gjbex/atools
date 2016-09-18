@@ -49,3 +49,5 @@ $ arange  -t 1-250  --log bootstrap.pbs.log10493`
 
 If you want to include the tasks that failed, for instance when a bug that
 caused this was fixed, simply add the `--redo` flag when invoking `arange`.
+
+Help on the command is printed using the `--print` flag.
