@@ -34,7 +34,7 @@ if __name__ == '__main__':
         conf_filename = os.path.join(os.path.dirname(__file__),
                                      '..', 'conf', 'atools.conf')
     if ((not options.empty and options.reduce) or
-        (options.empty and not options.reduce)):
+            (options.empty and not options.reduce)):
         msg = ('### error: either both --empty and --reduce or neither '
                'should be given\n')
         sys.stderr.write(msg)
