@@ -9,8 +9,9 @@ pages:
 - Monitoring jobs and resuming tasks: 'arange.md'
 - Gathering output: 'areduce.md'
 - Detailed job statistics: 'aload.md'
-- Contact and support: 'contact.md'
+- Installation: 'install.md'
 - FAQ: 'faq.md'
 - Change log: 'changes.md'
+- Contact and support: 'contact.md'
 site_dir: html_docs/atools
 theme: readthedocs
