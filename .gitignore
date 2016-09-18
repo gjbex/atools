@@ -4,6 +4,7 @@
 
 # autotools artifacts
 Makefile
+Makefile.in
 config.status
 config.log
 autom4te.cache/
