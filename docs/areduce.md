@@ -1,3 +1,3 @@
 # Gathering output
 
-Help on the command is printed using the `--print` flag.
+Help on the command is printed using the `--help` flag.

@@ -39,4 +39,4 @@ queries on the tables directly.
 Lastly, you can provide your own configuration file using the
 `--conf <config-file>` option.
 
-Help on the command is printed using the `--print` flag.
+Help on the command is printed using the `--help` flag.

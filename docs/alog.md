@@ -67,4 +67,4 @@ by `: <exit-status>` for failed jobs.  For this particular example, task
 `alog` takes a single option, `--conf <conf>` to specify your own
 configuration file.
 
-Help on the command is printed using the `--print` flag.
+Help on the command is printed using the `--help` flag.

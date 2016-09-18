@@ -79,4 +79,4 @@ with those values.
 1. `--conf <config-file>`: use the specified configuration file, rather
     than the default one.
 
-Help on the command is printed using the `--print` flag.
+Help on the command is printed using the `--help` flag.
