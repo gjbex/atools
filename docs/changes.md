@@ -2,8 +2,9 @@
 
 ## Release 1.3
 * Added unit testing for all modules.
-* Improved installation procedure.
+* Improved installation procedure, now uses autotools.
 * Added documentation.
+* Bug fixes to aload.
 
 ## Release 1.2
 * Added `aload` to easily analyse load balance and task run time
