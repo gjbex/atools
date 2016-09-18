@@ -16,7 +16,6 @@ if __name__ == '__main__':
     arg_parser.add_argument('-t', help='array ID range to consider')
     arg_parser.add_argument('--pattern', help='file name pattern')
     arg_parser.add_argument('--mode', choices=['text', 'csv'],
-                            default='text',
                             help='predefined reduction mode to use')
     script_group = arg_parser.add_argument_group(title='reduction scripts')
     script_group.add_argument('--empty', help='script to create empty '
@@ -45,10 +44,7 @@ if __name__ == '__main__':
         if options.empty:
             empty_filename, reduce_filename = options.empty, options.reduce
         else:
-            if options.mode:
-                mode = options.mode
-            else:
-                mode = get_default_mode(options.conf)
+            mode = options.mode if options.mode else None
             empty_script, reduce_script = get_mode_config(conf_filename,
                                                           mode)
             empty_filename = os.path.join(os.path.dirname(__file__), '..',
