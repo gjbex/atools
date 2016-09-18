@@ -99,3 +99,7 @@ if __name__ == '__main__':
         msg = '### error: {0}'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)
+    except InvalidRangeSpecError as error:
+        msg = '### error: {0}'.format(str(error))
+        sys.stderr.write(msg)
+        sys.exit(error.errno)
