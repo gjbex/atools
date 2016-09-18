@@ -3,6 +3,9 @@
 supported by a resource manager such as PBS torque, or a scheduler such
 as Moab (Adaptive Computing) and SUN Grid Engine.
 
+Full documentation is available on
+[Read the Docs](http://atools.readthedocs.io/en/latest/).
+
 
 ## Important note
 If you use job arrays on a HPC system that accounts for compute time,
