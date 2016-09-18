@@ -6,7 +6,7 @@ pages:
 - What are job arrays?: 'job_arrays.md'
 - Getting your parameters: 'aenv.md'
 - Logging for fun and profit: 'alog.md'
-- Resuming tasks and monitoring jobs: 'arange.md'
+- Monitoring jobs and resuming tasks: 'arange.md'
 - Detailed job statistics: 'aload.md'
 - Contact and support: 'contact.md'
 - FAQ: 'faq.md'

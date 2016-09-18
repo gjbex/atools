@@ -1,4 +1,4 @@
-# Resuming tasks and monitoring jobs
+# Monitoring jobs and resuming tasks
 Keeping track of the tasks already completed, succesfully or not, or tasks
 still pending can be somewhat annoying.  Resuming tasks that were not
 completed, or that failed requires a level of bookkeeping you may prefer
