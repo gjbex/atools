@@ -16,7 +16,6 @@ if __name__ == '__main__':
     arg_parser.add_argument('-t', help='array ID range to consider')
     arg_parser.add_argument('--pattern', help='file name pattern')
     arg_parser.add_argument('--mode', choices=['text', 'csv'],
-                            default='text',
                             help='predefined reduction mode to use')
     script_group = arg_parser.add_argument_group(title='reduction scripts')
     script_group.add_argument('--empty', help='script to create empty '
@@ -35,7 +34,7 @@ if __name__ == '__main__':
         conf_filename = os.path.join(os.path.dirname(__file__),
                                      '..', 'conf', 'atools.conf')
     if ((not options.empty and options.reduce) or
-        (options.empty and not options.reduce)):
+            (options.empty and not options.reduce)):
         msg = ('### error: either both --empty and --reduce or neither '
                'should be given\n')
         sys.stderr.write(msg)
@@ -45,10 +44,7 @@ if __name__ == '__main__':
         if options.empty:
             empty_filename, reduce_filename = options.empty, options.reduce
         else:
-            if options.mode:
-                mode = options.mode
-            else:
-                mode = get_default_mode(options.conf)
+            mode = options.mode if options.mode else None
             empty_script, reduce_script = get_mode_config(conf_filename,
                                                           mode)
             empty_filename = os.path.join(os.path.dirname(__file__), '..',
@@ -89,6 +85,8 @@ if __name__ == '__main__':
             elif not options.quiet:
                 msg = "### warming: '{0}' does not exist\n".format(filename)
                 sys.stderr.write(msg)
+            if options.rm_orig:
+                os.remove(filename)
     except subprocess.CalledProcessError as error:
         msg = '### Subprocess error: {0}\n'.format(str(error))
         sys.stderr.write(msg)
@@ -98,6 +96,10 @@ if __name__ == '__main__':
         sys.stderr.write(msg)
         sys.exit(error.errno)
     except ConfigFileError as error:
+        msg = '### error: {0}'.format(str(error))
+        sys.stderr.write(msg)
+        sys.exit(error.errno)
+    except InvalidRangeSpecError as error:
         msg = '### error: {0}'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)
