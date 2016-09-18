@@ -39,7 +39,7 @@ def show_item_stats(analyzer):
         '\tavg. time (s): {1:.2f}\n'
         '\tmin. time (s): {2:d}\n'
         '\tmax. time (s): {3:d}\n'
-        '\ttot. taime (): {4:d}'
+        '\ttot. time (s): {4:d}'
     )
     print('task statistics:')
     print(fmt_str.format(*results))
@@ -52,7 +52,7 @@ def show_slave_stats(analyzer):
         '\tavg. time (s): {1:.2f}\n'
         '\tmin. time (s): {2:d}\n'
         '\tmax. time (s): {3:d}\n'
-        '\ttot. taime (): {4:d}'
+        '\ttot. time (s): {4:d}'
     )
     print('slave statistics:')
     print(fmt_str.format(*results))

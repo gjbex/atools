@@ -8,3 +8,6 @@ Makefile.in
 config.status
 config.log
 autom4te.cache/
+
+# mkdocs artifacts
+html_docs

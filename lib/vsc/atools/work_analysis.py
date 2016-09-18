@@ -179,7 +179,7 @@ class LogAnalyzer(object):
         the minimum, average, and maximum run time'''
         no_failed = ' AND e.exit_code = 0' if exclude_failed else ''
         sql = '''
-            SELECT COUNT(t.slave_id) AS 'nr. slaves',
+            SELECT COUNT(DISTINCT t.slave_id) AS 'nr. slaves',
                    AVG(t.time) AS 'average time per task',
                    MIN(t.time) AS 'minimum time for task',
                    MAX(t.time) AS 'maximum time for task',
