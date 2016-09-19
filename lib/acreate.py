@@ -44,8 +44,9 @@ if __name__ == '__main__':
         conf_filename = os.path.join(os.path.dirname(__file__),
                                      '..', 'conf', 'atools.conf')
     if options.data:
-        cmd_fmt = 'source <(aenv --shell {0} --data {1})'
-        data_vals = cmd_fmt.format(options.shell, ' '.join(options.data))
+        cmd_fmt = 'source <(aenv --shell {shell} --data {data})'
+        data_vals = cmd_fmt.format(shell=options.shell,
+                                   data=' '.join(options.data))
     else:
         data_vals = ''
     preamble, payload = parse_job_script(options.job_script)
