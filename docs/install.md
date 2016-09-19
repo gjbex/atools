@@ -1,4 +1,11 @@
 # Installation
+
+## Requirements
+`atools` requires at least Python 2.7.x, but only uses the standard
+library.
+
+
+## Installation
 After downloading a release from
 [GitHub](https://github.com/gjbex/atools/releases) and unpacking, simply
 run
@@ -15,3 +22,8 @@ Depending on the batch system you use, the `batch_system` option in
 * `torque` for PBS torque,
 * `moab` for Adaptive Computing Moab,
 * `sge` for SUN Grid Engine.
+
+
+## Usage
+Ensure that the `bin` directory is in your path when executing `atools`
+commands.
