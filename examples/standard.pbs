@@ -1,0 +1,15 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=00:05:00
+
+# not needed in real script, this is only to localize test
+cd $PBS_O_WORKDIR
+
+# do actual work, i.e., original PBS script
+cd $PBS_O_WORKDIR
+echo "alpha = $alpha"
+echo "beta = $beta"
+echo "gamma = $gamma"
+
+result=$(( $alpha + $beta + $gamma ))
+echo "$alpha,$beta,$gamma,$result" > "out-${PBS_ARRAYID}.txt"
