@@ -4,6 +4,12 @@
 `atools` requires at least Python 2.7.x, but only uses the standard
 library.
 
+Supported queue systems and schedulers:
+
+* PBS torque,
+* Moab (Adaptive Computing),
+* SUN Grid Engine.
+
 
 ## Installation
 After downloading a release from
@@ -26,4 +32,4 @@ Depending on the batch system you use, the `batch_system` option in
 
 ## Usage
 Ensure that the `bin` directory is in your path when executing `atools`
-commands.
+commands, i.e., by adding it to the `PATH` environment variable.
