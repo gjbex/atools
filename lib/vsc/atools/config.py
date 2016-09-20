@@ -17,6 +17,16 @@ class ConfigFileError(ArrayToolsError):
         return 'config file error: {0}'.format(self._message)
 
 
+def get_default_shell(config_filename):
+    '''returns the default shell specified in the configuration file'''
+    config_parser = ConfigParser.SafeConfigParser()
+    try:
+        config_parser.read(config_filename)
+        return config_parser.get('global', 'shell', None)
+    except ConfigParser.Error as error:
+        raise ConfigFileError(str(error))
+
+
 def get_var_config(config_filename):
     '''returns a dictionary with the relevant shell variable names for
     for the selected batch system'''

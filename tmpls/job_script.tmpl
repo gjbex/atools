@@ -1,0 +1,12 @@
+{preamble}
+
+# set PATH to use atools
+{set_path}
+
+# start logging
+alog --state start{data_vals}
+
+{payload}
+
+# end logging
+alog --state end  --exit $?
