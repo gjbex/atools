@@ -23,6 +23,8 @@ job arrays.
 This documentation provides a walk through of the featues, and serves as
 a reference for the more arcane featues.  Topics:
 
+* adding `atools` features using templates,
+    (using [`acreate`](acreate.md))
 * instantiating parameter values per task (using [`aenv`](aenv.md)),
 * logging task start and completion information (using [`alog`](alog.md)),
 * resuming computations if not all tasks were completed

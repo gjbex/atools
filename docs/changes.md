@@ -1,5 +1,9 @@
 # Change log
 
+## Release 1.4
+* Added `acreate` command to automatically add `atools` features to a job
+    script.
+
 ## Release 1.3
 * Added unit testing for all modules.
 * Improved installation procedure, now uses autotools.

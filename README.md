@@ -8,7 +8,9 @@ tinkering is required for bookkeeping purposes.  `atools` aims to
 eliminate much of the boilerplate coding by supporting the following
 common tasks with minimal modification of job scripts.
 
-* Instantiating parameter values per task
+* Adding `atools` features using templates,
+    (using [`acreate`](docs/acreate.md)),
+* instantiating parameter values per task
     (using [`aenv`](docs/aenv.md)),
 * logging task start and completion information
     (using [`alog`](docs/alog.md)),
