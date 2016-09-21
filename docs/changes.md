@@ -3,6 +3,9 @@
 ## Release 1.4
 * Added `acreate` command to automatically add `atools` features to a job
     script.
+* `areduce` can now pass arguments to `empty` and `reduce` script for
+    to make implementations of non-trivial cases more generic.
+* Added `body` reduction mode to `arecude`.
 * Improved installation procedure so that fiddling with the configuration
     file after installation is no longer required.
 
