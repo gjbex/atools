@@ -2,6 +2,7 @@
 
 from argparse import ArgumentParser
 import os
+import shlex
 import subprocess
 import sys
 
@@ -72,8 +73,10 @@ if __name__ == '__main__':
             }
             filename = options.pattern.format(**args)
             if os.path.exists(filename):
-                subprocess.check_call([empty_filename, options.out,
-                                       filename])
+                cmd = [empty_filename, options.out, filename]
+                if options.empty_args:
+                    cmd.extend(shlex.split(options.empty_args))
+                subprocess.check_call(cmd)
                 break
             elif not options.quiet:
                 msg = "### warming: '{0}' does not exist\n".format(filename)
@@ -87,8 +90,10 @@ if __name__ == '__main__':
             }
             filename = options.pattern.format(**args)
             if os.path.exists(filename):
-                subprocess.check_call([reduce_filename, options.out,
-                                       filename])
+                cmd = [reduce_filename, options.out, filename]
+                if options.reduce_args:
+                    cmd.extend(shlex.split(options.reduce_args))
+                subprocess.check_call(cmd)
             elif not options.quiet:
                 msg = "### warming: '{0}' does not exist\n".format(filename)
                 sys.stderr.write(msg)
