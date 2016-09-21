@@ -2,6 +2,7 @@
 
 from argparse import ArgumentParser
 import os
+import shlex
 import subprocess
 import sys
 
@@ -13,14 +14,21 @@ from vsc.atools.config import (get_var_config, get_mode_config,
 if __name__ == '__main__':
     arg_parser = ArgumentParser(description='Reduce the output of multiple '
                                             'tasks to a single file')
-    arg_parser.add_argument('-t', help='array ID range to consider')
+    arg_parser.add_argument('-t', required=True,
+                            help='array ID range to consider')
     arg_parser.add_argument('--pattern', help='file name pattern')
     arg_parser.add_argument('--mode', choices=['text', 'csv'],
                             help='predefined reduction mode to use')
     script_group = arg_parser.add_argument_group(title='reduction scripts')
     script_group.add_argument('--empty', help='script to create empty '
                                               'output file to use')
+    script_group.add_argument('--empty_args',
+                              help='additional command line arguments for '
+                                   'empty')
     script_group.add_argument('--reduce', help='script to reduce output')
+    script_group.add_argument('--reduce_args',
+                              help='additional command line arguments for '
+                                   'reduce')
     arg_parser.add_argument('--out', required=True, help='output file name')
     arg_parser.add_argument('--rm_orig', action='store_true',
                             help='remove original output files')
@@ -65,8 +73,10 @@ if __name__ == '__main__':
             }
             filename = options.pattern.format(**args)
             if os.path.exists(filename):
-                subprocess.check_call([empty_filename, options.out,
-                                       filename])
+                cmd = [empty_filename, options.out, filename]
+                if options.empty_args:
+                    cmd.extend(shlex.split(options.empty_args))
+                subprocess.check_call(cmd)
                 break
             elif not options.quiet:
                 msg = "### warming: '{0}' does not exist\n".format(filename)
@@ -80,8 +90,10 @@ if __name__ == '__main__':
             }
             filename = options.pattern.format(**args)
             if os.path.exists(filename):
-                subprocess.check_call([reduce_filename, options.out,
-                                       filename])
+                cmd = [reduce_filename, options.out, filename]
+                if options.reduce_args:
+                    cmd.extend(shlex.split(options.reduce_args))
+                subprocess.check_call(cmd)
             elif not options.quiet:
                 msg = "### warming: '{0}' does not exist\n".format(filename)
                 sys.stderr.write(msg)

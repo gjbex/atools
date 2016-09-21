@@ -33,3 +33,6 @@ reduce = reduce_text
 empty = empty_csv
 reduce = reduce_csv
 
+[body]
+empty = empty_body
+reduce = reduce_body

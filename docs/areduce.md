@@ -46,6 +46,20 @@ respecting the semantics of the data.  The scripts to use can be passed
 to `areduce` using the `--empty` and `--reduce` options.
 Examples can be found in the `reduce` directory.
 
+Arguments can be passed to the `empty` and `reduce` script as in the example
+below:
+```bash
+$ areduce  -t 1-250  --pattern 'out-{t}.csv'  --out out.csv  \
+           --empty my_empty  --reduce my_reduce  --reduce_args '--h 3'
+```
+Note that the arguments to be passed must be quoted, i.e., passed as a
+single string to `areduce`.
+
+An example of a non-trivial `reduce` is `reduce/reduce_body`.  The `body`
+mode takes two additional arguments for its `reduce`, i.e., `--h <n>` will
+skip the first n lines of the text files, `--f <n>` will skip the last n
+lines of the text file.
+
 `areduce` will print a warning message for missing output files, which may
 happen if one or more tasks failed, or some tasks were not completed. 
 These messages can be repressed using the `--quiet` flag.

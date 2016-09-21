@@ -1297,7 +1297,7 @@ Optional Packages:
   --with-batchsystem=SYSTEM
                           Scheduler to use: torque, moab, sge; default=torque
 
-  --with-reducemode=MODE  reduce mode to use as default: text, csv;
+  --with-reducemode=MODE  reduce mode to use as default: text, body, csv;
                           default=csv
 
   --with-shell=SHELL      shell that is considered default: bash, sh, tcsh,
@@ -2476,10 +2476,12 @@ fi
 case $with_reducemode in #(
   text) :
      ;; #(
+  body) :
+     ;; #(
   csv) :
      ;; #(
   *) :
-    as_fn_error $? "reduce mode should be one of text, csv" "$LINENO" 5
+    as_fn_error $? "reduce mode should be one of text, body, csv" "$LINENO" 5
  ;;
 esac
 
