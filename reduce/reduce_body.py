@@ -15,8 +15,6 @@ if __name__ == '__main__':
         sys.stdin.readline()
     buffer = []
     for line in sys.stdin:
+        buffer.append(line.rstrip('\n\r'))
         if len(buffer) > options.f:
             print(buffer.pop(0))
-        buffer.append(line.rstrip('\n\r'))
-    if len(buffer) > options.f:
-        print(buffer.pop(0))
