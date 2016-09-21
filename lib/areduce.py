@@ -13,14 +13,21 @@ from vsc.atools.config import (get_var_config, get_mode_config,
 if __name__ == '__main__':
     arg_parser = ArgumentParser(description='Reduce the output of multiple '
                                             'tasks to a single file')
-    arg_parser.add_argument('-t', help='array ID range to consider')
+    arg_parser.add_argument('-t', required=True,
+                            help='array ID range to consider')
     arg_parser.add_argument('--pattern', help='file name pattern')
     arg_parser.add_argument('--mode', choices=['text', 'csv'],
                             help='predefined reduction mode to use')
     script_group = arg_parser.add_argument_group(title='reduction scripts')
     script_group.add_argument('--empty', help='script to create empty '
                                               'output file to use')
+    script_group.add_argument('--empty_args',
+                              help='additional command line arguments for '
+                                   'empty')
     script_group.add_argument('--reduce', help='script to reduce output')
+    script_group.add_argument('--reduce_args',
+                              help='additional command line arguments for '
+                                   'reduce')
     arg_parser.add_argument('--out', required=True, help='output file name')
     arg_parser.add_argument('--rm_orig', action='store_true',
                             help='remove original output files')
