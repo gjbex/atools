@@ -1,10 +1,10 @@
 [global]
 # batch system to use
-batch_system = torque
+batch_system = BATCH_SYSTEM
 # default reduce mode
-mode = csv
+mode = MODE
 # default Linux shell
-shell = bash
+shell = SHELL
 
 # do not modify below this point unless you are extending `atools`
 # capabilities

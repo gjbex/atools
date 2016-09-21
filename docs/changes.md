@@ -3,6 +3,8 @@
 ## Release 1.4
 * Added `acreate` command to automatically add `atools` features to a job
     script.
+* Improved installation procedure so that fiddling with the configuration
+    file after installation is no longer required.
 
 ## Release 1.3
 * Added unit testing for all modules.

@@ -658,6 +658,7 @@ enable_option_checking
 enable_silent_rules
 with_batchsystem
 with_reducemode
+with_shell
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1298,6 +1299,9 @@ Optional Packages:
 
   --with-reducemode=MODE  reduce mode to use as default: text, csv;
                           default=csv
+
+  --with-shell=SHELL      shell that is considered default: bash, sh, tcsh,
+                          csh; default=bash
 
 
 Report bugs to <geertjan.bex@uhasselt.be>.
@@ -2421,9 +2425,11 @@ END
   fi
 fi
 
-echo "export PYTHON=\"$(which python)\"" > conf/atools_python.sh
+
 ac_config_files="$ac_config_files Makefile bin/Makefile conf/Makefile lib/Makefile lib/vsc/Makefile lib/vsc/atools/Makefile reduce/Makefile"
 
+
+# set batch system option
 
 # Check whether --with-batchsystem was given.
 if test "${with_batchsystem+set}" = set; then :
@@ -2431,11 +2437,23 @@ if test "${with_batchsystem+set}" = set; then :
 fi
 
 
+# set reduce mode option
+
 # Check whether --with-reducemode was given.
 if test "${with_reducemode+set}" = set; then :
   withval=$with_reducemode;
 fi
 
+
+# set shell options
+
+# Check whether --with-shell was given.
+if test "${with_shell+set}" = set; then :
+  withval=$with_shell;
+fi
+
+
+# if unset, set batch system to default, check validity
 if test "x$with_batchsystem" == "x"; then :
   with_batchsystem=torque
 fi
@@ -2450,6 +2468,8 @@ case $with_batchsystem in #(
     as_fn_error $? "batch system should be one of torque, moab, or sge" "$LINENO" 5
  ;;
 esac
+
+# if unset, set reduce mode to default, check validity
 if test "x$with_reducemode" == "x"; then :
   with_reducemode=csv
 fi
@@ -2462,8 +2482,40 @@ case $with_reducemode in #(
     as_fn_error $? "reduce mode should be one of text, csv" "$LINENO" 5
  ;;
 esac
-echo "mode: $with_reducemode"
-echo "batch system: $with_batchsystem"
+
+# if unset, set shell to default, check validity
+if test "x$with_shell" == "x"; then :
+  with_shell=bash
+fi
+case $with_shell in #(
+  bash) :
+     ;; #(
+  sh) :
+     ;; #(
+  tcsh) :
+     ;; #(
+  csh) :
+     ;; #(
+  *) :
+    as_fn_error $? "default shell should be one of bash, sh, tcsh, csh" "$LINENO" 5
+ ;;
+esac
+
+# create atools_python.sh file
+python_path=$(which python)
+{ $as_echo "$as_me:${as_lineno-$LINENO}: Setting Python to $python_path..." >&5
+$as_echo "$as_me: Setting Python to $python_path..." >&6;}
+echo "export PYTHON=\"${python_path}\"" > conf/atools_python.sh
+
+# create atools.conf
+{ $as_echo "$as_me:${as_lineno-$LINENO}: Creatign atools.conf..." >&5
+$as_echo "$as_me: Creatign atools.conf..." >&6;}
+m4 \
+    -DBATCH_SYSTEM=$with_batchsystem \
+    -DMODE=$with_reducemode \
+    -DSHELL=$with_shell \
+    conf/atools.conf.m4 > conf/atools.conf
+
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
