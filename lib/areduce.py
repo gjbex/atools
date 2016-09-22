@@ -17,7 +17,7 @@ if __name__ == '__main__':
     arg_parser.add_argument('-t', required=True,
                             help='array ID range to consider')
     arg_parser.add_argument('--pattern', help='file name pattern')
-    arg_parser.add_argument('--mode', choices=['text', 'csv'],
+    arg_parser.add_argument('--mode', choices=['text', 'csv', 'body'],
                             help='predefined reduction mode to use')
     script_group = arg_parser.add_argument_group(title='reduction scripts')
     script_group.add_argument('--empty', help='script to create empty '
