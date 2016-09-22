@@ -1,5 +1,9 @@
 # Change log
 
+## Release 1.4.1
+* Bug fixes for installation of body reduce mode.
+* Bug fix in `areduce` for actaully using body mode
+
 ## Release 1.4
 * Added `acreate` command to automatically add `atools` features to a job
     script.
