@@ -25,7 +25,7 @@ AC_ARG_WITH(
     [reducemode],
     AS_HELP_STRING(
         [--with-reducemode=MODE],
-        [reduce mode to use as default: text, body, csv; default=csv]
+        [reduce mode to use as default: text, body, csv; default=text]
     )
 )
 
@@ -48,7 +48,7 @@ AS_CASE([$with_batchsystem],
 )
 
 # if unset, set reduce mode to default, check validity
-AS_IF([test "x$with_reducemode" == "x"], [with_reducemode=csv])
+AS_IF([test "x$with_reducemode" == "x"], [with_reducemode=text])
 AS_CASE([$with_reducemode],
     [text], [],
     [body], [],

@@ -3,6 +3,8 @@
 ## Release 1.4.1
 * Bug fixes for installation of body reduce mode.
 * Bug fix in `areduce` for actaully using body mode
+* According to principle of least surprise, changed installtion defaul
+    mode from csv to text.
 
 ## Release 1.4
 * Added `acreate` command to automatically add `atools` features to a job

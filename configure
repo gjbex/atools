@@ -1298,7 +1298,7 @@ Optional Packages:
                           Scheduler to use: torque, moab, sge; default=torque
 
   --with-reducemode=MODE  reduce mode to use as default: text, body, csv;
-                          default=csv
+                          default=text
 
   --with-shell=SHELL      shell that is considered default: bash, sh, tcsh,
                           csh; default=bash
@@ -2471,7 +2471,7 @@ esac
 
 # if unset, set reduce mode to default, check validity
 if test "x$with_reducemode" == "x"; then :
-  with_reducemode=csv
+  with_reducemode=text
 fi
 case $with_reducemode in #(
   text) :
