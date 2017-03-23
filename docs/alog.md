@@ -1,4 +1,4 @@
-# Loggin for fun and profit
+# Logging for fun and profit
 Often, it is useful to log information about the execution of individual
 tasks.  This information can be used
 
