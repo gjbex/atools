@@ -28,7 +28,7 @@ $ arange  -t 1-250  --log bootstrap.pbs.log10493  --summary
 ```
 
 Of course, `arange` works independently of `aenv`, so it also supports
-keeping track of general job arrays using the `-t` flag, e.g.,
+keeping track of general job arrays using the `-t` flag.
 
 Sometimes it is useful to explicitly list the task identifiers of either
 failed or completed jobs as task identifier ranges, this can be done by
