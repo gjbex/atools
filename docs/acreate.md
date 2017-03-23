@@ -1,4 +1,4 @@
-# Adding atools features using templates,
+# Adding atools features using templates
 
 Although the modifications required to use `atools` are fairly simple,
 they involve some steps that my be unfamiliar to the casual user.
