@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 from argparse import ArgumentParser
+import fcntl
 import os
-import posixfile
 import re
 import socket
 import sys
@@ -75,11 +75,11 @@ if __name__ == '__main__':
         else:
             msg = create_end_msg(options.exit, var_names)
         log_name = get_log_name(var_names)
-        log_file = posixfile.open(log_name, 'a')
-        log_file.lock('w|')
-        log_file.write(msg + os.linesep)
-        log_file.lock('u')
-        log_file.close()
+        with open(log_name, 'a') as log_file:
+            fcntl.lockf(log_file, fcntl.LOCK_EX)
+            log_file.write(msg + os.linesep)
+            log_file.flush()
+            fcntl.lockf(log_file, fcntl.LOCK_UN)
     except EnvVarError as error:
         sys.stderr.write('### error: {0}\n'.format(str(error)))
         sys.exit(error.errno)
