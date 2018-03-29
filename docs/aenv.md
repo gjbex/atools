@@ -46,6 +46,8 @@ with those values.
 1. `--sniff <nr_bytes>`: the number of bytes used to determine the CSV
     dialect.  It may be useful to increase this from the default value of
     1024 bytes for files with many columns, or large line lengths.
+1. `--no_sniffer` : for data files with a single column, the sniffer
+    gets confused, so it should be switched off.
 1. `--id <id>`: used to specify your own line number in the CSV file to
     determine the variables' values.  This can be used in conjunction with
     a queue system or scheduler that `atools` doesn't currently support.
