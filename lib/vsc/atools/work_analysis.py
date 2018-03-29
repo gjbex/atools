@@ -27,17 +27,22 @@ class MissingSourceError(ArrayToolsError):
         return msg.format(self._function_name)
 
 
-def _compute_data_ids(data_files, sniff=1024):
+def _compute_data_ids(data_files, sniff=1024, no_sniffer=False):
     nr_work_items = sys.maxsize
     for filename in data_files:
         with open(filename, 'r') as csv_file:
-            sniffer = csv.Sniffer()
-            dialect = sniffer.sniff(csv_file.read(sniff))
-            csv_file.seek(0)
-            csv_reader = csv.DictReader(csv_file, fieldnames=None,
-                                        restkey='rest',
-                                        restval=None,
-                                        dialect=dialect)
+            if no_sniffer:
+                csv_reader = csv.DictReader(csv_file, fieldnames=None,
+                                            restkey='rest',
+                                            restval=None)
+            else:
+                sniffer = csv.Sniffer()
+                dialect = sniffer.sniff(csv_file.read(sniff))
+                csv_file.seek(0)
+                csv_reader = csv.DictReader(csv_file, fieldnames=None,
+                                            restkey='rest',
+                                            restval=None,
+                                            dialect=dialect)
             row_nr = 0
             for row in csv_reader:
                 row_nr += 1
@@ -47,9 +52,10 @@ def _compute_data_ids(data_files, sniff=1024):
 
 
 def compute_items_todo(data_files, t_str, log_files, must_redo=False,
-                       sniff=1024):
+                       sniff=1024, no_sniffer=False):
     if data_files and t_str:
-        todo = _compute_data_ids(data_files, sniff) & int_ranges2set(t_str)
+        todo = (_compute_data_ids(data_files, sniff, no_sniffer) &
+                int_ranges2set(t_str))
     elif data_files:
         todo = _compute_data_ids(data_files, sniff)
     elif t_str:
