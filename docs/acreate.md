@@ -15,7 +15,7 @@ $ acreate  bootstrap.pbs  >  bootstrap_atools.pbs
 If `aenv` is to be used, in addition to logging, you simply add the
 `--data` option:
 ```bash
-$ acreate  --data data.csv  bootstrap.pbs  > bootstrap_atools.pbs
+$ acreate  --data data.csv --  bootstrap.pbs  > bootstrap_atools.pbs
 ```
 
 The default shell is the one specified in the configuration file, but

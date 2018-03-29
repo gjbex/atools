@@ -19,7 +19,7 @@ echo "beta = $beta"
 echo "gamma = $gamma"
 exit_code=$(( $RANDOM % 2 ))
 
-result=$(( $alpha + $beta + $gamma ))
+result=$(echo "$alpha + $beta + $gamma" | bc -l)
 echo "$alpha,$beta,$gamma,$result" > "out-${PBS_ARRAYID}.txt"
 
 # log end of work item execution
