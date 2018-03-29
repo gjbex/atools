@@ -10,3 +10,8 @@ submitting a job.
 ### When using `arange` to compute which array IDs to redo it seems to return tasks that were done before, why?
 Remember to pass *all* relevant log files to `arange`, not only the
 last one.
+
+### `aenv` and `arange` seem to break when my data file has a single column
+The sniffer gets confused, you can use the `--no_sniffer` option to
+deactivate it.  Since the data format is very simple in that case, the
+defaults should do the right thing.

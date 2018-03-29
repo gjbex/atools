@@ -55,3 +55,14 @@ details, see the [documentation](http://atools.readthedocs.io/en/latest/).
 In no particular order...
 * Template based job script creation
 * Indexed data files for scaling to very large numbers of tasks.
+
+
+## Contributors
+* [Geert Jan Bex](geertjan.bex@uhasselt.be), Hasselt University/University
+    of Leuven
+* Stefan Becuwe, Antwerp University
+  * Fixes to the documentation
+  * Fix to the install process
+  * Bug report
+* Ward Poelmans, Vrije Universiteit Brussel
+  * Fixes to the install process
