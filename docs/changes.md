@@ -1,5 +1,10 @@
 # Change log
 
+## Release 1.4.2
+* Workaround for data files that have only a single column.
+* Fixes in documentation and example.
+* Fix in autotools file that impacted installation
+
 ## Release 1.4.1
 * Bug fixes for installation of body reduce mode.
 * Bug fix in `areduce` for actually using body mode
