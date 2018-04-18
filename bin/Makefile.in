@@ -212,6 +212,7 @@ pdfdir = @pdfdir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
 psdir = @psdir@
+runstatedir = @runstatedir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
@@ -220,7 +221,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-dist_bin_SCRIPTS = aenv aload alog arange areduce
+dist_bin_SCRIPTS = acreate aenv aload alog arange areduce
 all: all-am
 
 .SUFFIXES:
