@@ -25,6 +25,8 @@ if __name__ == '__main__':
                             help='shell to generate defintions for')
     arg_parser.add_argument('--sniff', type=int, default=1024,
                             help='number of bytes to sniff for CSV dialect')
+    arg_parser.add_argument('--no_sniffer', action='store_true',
+                            help='do not use the sniffer for CSV dialect')
     arg_parser.add_argument('--conf', help='configuration file')
     options = arg_parser.parse_args()
     if options.conf:
@@ -47,11 +49,18 @@ if __name__ == '__main__':
                 raise EnvVarError(error.args[0])
         for filename in options.data:
             with open(filename, 'r') as csv_file:
-                dialect = csv.Sniffer().sniff(csv_file.read(options.sniff))
-                csv_file.seek(0)
-                csv_reader = csv.DictReader(csv_file, fieldnames=None,
-                                            restkey='rest', restval=None,
-                                            dialect=dialect)
+                if options.no_sniffer:
+                    csv_reader = csv.DictReader(csv_file, fieldnames=None,
+                                                restkey='rest',
+                                                restval=None)
+                else:
+                    sniff_bytes = csv_file.read(options.sniff)
+                    dialect = csv.Sniffer().sniff(sniff_bytes)
+                    csv_file.seek(0)
+                    csv_reader = csv.DictReader(csv_file, fieldnames=None,
+                                                restkey='rest',
+                                                restval=None,
+                                                dialect=dialect)
                 row_nr = 0
                 for row in csv_reader:
                     row_nr += 1

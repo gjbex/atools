@@ -28,6 +28,8 @@ if __name__ == '__main__':
                             help='list completed jobs when summarizing')
     arg_parser.add_argument('--sniff', type=int, default=1024,
                             help='number of bytes to sniff for CSV dialect')
+    arg_parser.add_argument('--no_sniffer', action='store_true',
+                            help='do not use the sniffer for CSV dialect')
     arg_parser.add_argument('--conf', help='configuration file')
     options = arg_parser.parse_args()
     if options.summary and not options.log:
@@ -35,11 +37,10 @@ if __name__ == '__main__':
         sys.stderr.write(msg)
         sys.exit(1)
     try:
-        todo, completed, failed = compute_items_todo(options.data,
-                                                     options.t,
-                                                     options.log,
-                                                     must_redo=options.redo,
-                                                     sniff=options.sniff)
+        todo, completed, failed = compute_items_todo(
+            options.data, options.t, options.log, must_redo=options.redo,
+            sniff=options.sniff, no_sniffer=options.no_sniffer
+        )
         if options.summary:
             print('Summary:')
             print('  items completed: {0:d}'.format(len(completed)))
