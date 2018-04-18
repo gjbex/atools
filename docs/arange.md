@@ -28,7 +28,7 @@ $ arange  -t 1-250  --log bootstrap.pbs.log10493  --summary
 ```
 
 For data files that have a single column only, the sniffer gets confused.
-It can be switched off usng the `--no_sniffer` option.
+It can be switched off using the `--no_sniffer` option.
 
 Of course, `arange` works independently of `aenv`, so it also supports
 keeping track of general job arrays using the `-t` flag.
