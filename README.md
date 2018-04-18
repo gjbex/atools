@@ -1,4 +1,7 @@
 # atools
+
+[![Documentation Status](https://readthedocs.org/projects/atools/badge/?version=latest)](http://atools.readthedocs.io/en/latest/?badge=latest)
+
 `atools` is intended to facilitate working with job arrays, a feature
 supported by a resource manager such as PBS torque, or a scheduler such
 as Moab (Adaptive Computing) and SUN Grid Engine.
