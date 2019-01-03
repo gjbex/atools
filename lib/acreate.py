@@ -2,6 +2,7 @@
 
 from argparse import ArgumentParser
 import os
+import sys
 
 from vsc.shell import get_shells, create_var_def, UnknownShellError
 from vsc.atools.config import get_default_shell, ConfigFileError
