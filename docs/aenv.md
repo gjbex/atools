@@ -1,7 +1,7 @@
 # Getting your parameters: `aenv`
 The parameters for tasks can be stored in an CSV file, where the first
 row is simply the names of the parameters, and each consecutive row
-represents the values of these parameters for a specfic experiment, i.e.,
+represents the values of these parameters for a specific experiment, i.e.,
 computational task.
 
 `aenv` will use the task identifier as an index into this CSV file, and

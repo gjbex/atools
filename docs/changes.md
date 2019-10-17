@@ -29,7 +29,7 @@
 * Implemented `--rm_orig` in `areduce`.
 
 ## Release 1.2
-* Added `aload` to easily analyse load balance and task run time
+* Added `aload` to easily analyze load balance and task run time
     distributions.
 
 ## Release 1.1

@@ -2,7 +2,7 @@
 Gathering statistics about the execution time of tasks is straightforward
 using `aload`.  Given the log file(s) of a job, it will
 
-* the number of tasks completed (both succesful and failed), the average,
+* the number of tasks completed (both successful and failed), the average,
     minimum, maximum, and total execution time;
 * the number of slaves, the average, minimum, maximum, and total execution
     time from the perspective of the slaves.
@@ -21,7 +21,7 @@ by adding the `--no_failed` flag to the call to `aload`.
 
 Sometimes it can be useful to compute more detailed statistics or plot
 distributions of, e.g., the task execution time.  It is beyond the scope
-of `aload` to do this, but the data can be exported for further analysys
+of `aload` to do this, but the data can be exported for further analysis
 by adding the `--list_tasks` flag, i.e.,
 ```bash
 $ aload  --log bootstrap.pbs.log10493  --list_tasks
