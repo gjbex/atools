@@ -18,7 +18,7 @@ INPUT_FILE="input-${PBS_ARRAYID}.csv"
 ```
 
 Submitting arrays jobs is quite simple.  For each of the supported queue
-systems and schedulers, one simply addes the `-t <int-range>` options to
+systems and schedulers, one simply adds the `-t <int-range>` options to
 the submission command, `qsub` for PBS torque and SUN grid engine, `msub`
 for Moab, e.g., for PBS torque:
 ```bash

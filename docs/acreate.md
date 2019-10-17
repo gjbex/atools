@@ -19,7 +19,7 @@ $ acreate  --data data.csv --  bootstrap.pbs  > bootstrap_atools.pbs
 ```
 
 The default shell is the one specified in the configuration file, but
-this can ben overridden on the command line using the `--shell` option,
+this can be overridden on the command line using the `--shell` option,
 e.g., if `bootstrap.pbs` where a tcsh shell script, you would use
 ```bash
 $ acreate  --shell tcsh  bootstrap.pbs  >  bootstrap_atools.pbs

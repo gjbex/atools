@@ -1,11 +1,11 @@
 # Configuration file
 
 If `atools` was installed for you by your friendly local system
-administator, you do not have to worry about the log file, it is installed
+administrator, you do not have to worry about the log file, it is installed
 with `atools` and configured to do the right thing on your system.
 
 The log file is in Python's `ConfigParser` format, and contains the
-defaults for the system `atools` is installed on.  The first `golbal`
+defaults for the system `atools` is installed on.  The first `global`
 section is where these defaults are set.
 ```
 [global]
@@ -26,7 +26,7 @@ The supported batch systems are:
 The supported standard reduction modes are:
 
 * `text`: concatenate text files, assuming no header information,
-* `csv`: concatinate CSV files, assuming the first line contains the
+* `csv`: concatenate CSV files, assuming the first line contains the
     column definitions.
 
 The supported shells are:

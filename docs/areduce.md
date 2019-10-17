@@ -23,7 +23,7 @@ shell script would get somewhat tedious.  `areduce` also takes care of the
 proper order of the files, while this would be cumbersome to do by hand.
 
 If each of the output files were CSV files, the first line of each file
-would contain the field names, that in te aggregated file should occur
+would contain the field names, that in the aggregated file should occur
 only once as the first line.
 ```bash
 $ areduce  -t 1-250  --pattern 'out-{t}.csv'  --out out.csv  --mode csv
@@ -37,10 +37,10 @@ those tasks since it may be incomplete and/or incorrect.  In that case,
 simply use [`arange`](arange.md) to determine the task identifiers of the
 completed task using the `--list_completed` flag.
 
-To handle more intresting cases, you can supply two scripts that
+To handle more interesting cases, you can supply two scripts that
 each take two arguments: the name of the resulting file, and the name of
 a single data file.  The first script creates an empty result file (in
-case of CSV data, that would be a file containing a sinle line with the
+case of CSV data, that would be a file containing a single line with the
 field names).  The second appends the data file to the output file,
 respecting the semantics of the data.  The scripts to use can be passed
 to `areduce` using the `--empty` and `--reduce` options.
