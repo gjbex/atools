@@ -49,9 +49,12 @@ if __name__ == '__main__':
             if options.list_failed:
                 print('failed: {0}'.format(set2int_ranges(failed)))
             if options.list_completed:
-                print('to do: {0}'.format(set2int_ranges(completed)))
+                print('completed: {0}'.format(set2int_ranges(completed)))
         else:
-            print(set2int_ranges(todo))
+            if options.list_completed:
+                print(set2int_ranges(completed))
+            else:
+                print(set2int_ranges(todo))
     except IOError as error:
         msg = '### IOError: {0}'.format(str(error))
         sys.stderr.write(msg)
