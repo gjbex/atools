@@ -1,1 +1,1 @@
-export PYTHON=python
+export PYTHON=/usr/bin/python2
