@@ -22,16 +22,18 @@ the job to get correct results.
 
 Since `arange` parses the data file, it also has the `--sniff` option to
 specify the number of bytes to use to determine the dialect of the CSV
-file.
-```bash
-$ arange  -t 1-250  --log bootstrap.pbs.log10493  --summary
-```
+file.  For files with many columns, the number of bytes the sniffer will
+use to determine the file's structure and dialect should be increased
+from the default value.
 
 For data files that have a single column only, the sniffer gets confused.
 It can be switched off using the `--no_sniffer` option.
 
 Of course, `arange` works independently of `aenv`, so it also supports
 keeping track of general job arrays using the `-t` flag.
+```bash
+$ arange  -t 1-250  --log bootstrap.pbs.log10493  --summary
+```
 
 Sometimes it is useful to explicitly list the task identifiers of either
 failed or completed jobs as task identifier ranges, this can be done by
