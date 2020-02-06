@@ -9,6 +9,7 @@ AC_CONFIG_FILES([
     lib/vsc/Makefile
     lib/vsc/atools/Makefile
     reduce/Makefile
+    tmpls/Makefile
 ])
 
 # set batch system option

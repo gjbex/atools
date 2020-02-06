@@ -1,1 +1,1 @@
-SUBDIRS = bin conf lib reduce
+SUBDIRS = bin conf lib reduce tmpls
