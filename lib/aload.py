@@ -54,6 +54,8 @@ def show_slave_stats(analyzer):
         '\t\ttot. time (s): {4:d}'
     )
     print('slave statistics:')
+    result = analyzer.nr_slaves()
+    print('\ttotal: {0:d}'.format(result[0]))
     for result in analyzer.slave_stats(options.no_failed):
         slave_id = result[0]
         print("\tslave '{0}':".format(slave_id))

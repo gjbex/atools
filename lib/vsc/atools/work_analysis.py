@@ -164,6 +164,13 @@ class LogAnalyzer(object):
         cursor = self._conn.cursor()
         return cursor.execute(sql).fetchall()
 
+    def nr_slaves(self):
+        sql = '''
+            SELECT COUNT(DISTINCT slave_id)
+                FROM work_items'''
+        cursor = self._conn.cursor()
+        return cursor.execute(sql).fetchone()
+
     def item_stats(self, exclude_failed=False):
         '''returns a tuple containing the number of items computed,
         the minimum, average, and maximum run time'''
