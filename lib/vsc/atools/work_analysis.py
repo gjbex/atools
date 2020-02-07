@@ -185,15 +185,18 @@ class LogAnalyzer(object):
         the minimum, average, and maximum run time'''
         no_failed = ' AND e.exit_code = 0' if exclude_failed else ''
         sql = '''
-            SELECT COUNT(DISTINCT t.slave_id) AS 'nr. slaves',
+            SELECT t.slave_id as slave,
+                   COUNT(t.item_id) AS 'nr. items',
                    AVG(t.time) AS 'average time per task',
                    MIN(t.time) AS 'minimum time for task',
                    MAX(t.time) AS 'maximum time for task',
                    SUM(t.time) AS 'total time'
                 FROM (SELECT s.slave_id AS slave_id,
+                             s.item_id AS item_id,
                              e.end_time - s.start_time AS time
                           FROM work_items AS s, results AS e
                           WHERE s.item_id = e.item_id{0}) AS t
-                GROUP BY t.slave_id;'''.format(no_failed)
+                GROUP BY t.slave_id
+                ORDER BY t.slave_Id;'''.format(no_failed)
         cursor = self._conn.cursor()
-        return cursor.execute(sql).fetchone()
+        return cursor.execute(sql).fetchall()
