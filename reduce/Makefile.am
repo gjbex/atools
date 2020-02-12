@@ -4,4 +4,4 @@ dist_reduce_DATA = empty_csv reduce_csv \
                    empty_body reduce_body reduce_body.py
 
 install-data-hook:
-	chmod +x $(DESTDIR)$(reducedir)/*
+	chmod a+x $(DESTDIR)$(reducedir)/*
