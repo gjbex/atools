@@ -4,7 +4,7 @@
 
 `atools` is intended to facilitate working with job arrays, a feature
 supported by a resource manager such as PBS torque, or a scheduler such
-as Moab (Adaptive Computing) and SUN Grid Engine.
+as Moab (Adaptive Computing), SUN Grid Engine and Slurm workload manager.
 
 Although the job array concept is quite versatile, typically some
 tinkering is required for bookkeeping purposes.  `atools` aims to
@@ -45,8 +45,8 @@ cost by a large factor compared to using the
 `atools` requires at least Python 2.7.x, but only uses the standard
 library.
 
-Currently, PBS torque, Adaptive Computing Moab, and SUN Grid Engine are
-supported.
+Currently, PBS torque, Adaptive Computing Moab, SUN Grid Engine and
+Slurm workload manager are supported.
 
 
 ## Installing
@@ -69,3 +69,6 @@ In no particular order...
   * Bug report
 * Ward Poelmans, Vrije Universiteit Brussel
   * Fixes to the install process
+* Kurt Lust, Antwerp University
+  * Several bug reports and fixes
+  * Added Slurm compatibility

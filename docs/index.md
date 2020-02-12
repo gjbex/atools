@@ -15,10 +15,10 @@ to conveniently handle such MapReduce scenarios without the overhead,
 both in terms of computation and setup of systems such as Hadoop or
 Spark.
 
-Currently, `atools` supports PBS torque, Adaptive Computing Moab and
-SUN Grid Engine, but extending the list to other resource managers and
-schedulers should be easy if they support a feature similar in spirit to
-job arrays.
+Currently, `atools` supports PBS torque, Adaptive Computing Moab, SUN Grid
+Engine and Slurm workload manager, but extending the list to other resource
+managers and schedulers should be easy if they support a feature similar in
+spirit to job arrays.
 
 This documentation provides a walk through of the features, and serves as
 a reference for the more arcane features.  Topics:
