@@ -93,6 +93,30 @@ class TestLogParser(unittest.TestCase):
             self.assertTrue(last_time >= event.time_stamp)
             last_time = event.time_stamp
 
+    def test_hopper_parse_file(self):
+        from vsc.atools.log_parser import LogParser
+        expected_nr_events = 18
+        expected_nr_started = 10
+        expected_nr_completed = 3
+        expected_nr_failed = 5
+        file_name = 'data/test_hopper.log'
+        log_parser = LogParser()
+        events = log_parser.parse(file_name)
+        self.assertEquals(expected_nr_events, len(events))
+        self.assertEquals(expected_nr_started,
+                          len(filter(lambda x: x.type == 'started',
+                                     events)))
+        self.assertEquals(expected_nr_completed,
+                          len(filter(lambda x: x.type == 'completed',
+                                     events)))
+        self.assertEquals(expected_nr_failed,
+                          len(filter(lambda x: x.type == 'failed',
+                                     events)))
+        last_time = datetime.now()
+        for event in reversed(events):
+            self.assertTrue(last_time >= event.time_stamp)
+            last_time = event.time_stamp
+
     def test_parse_non_existent(self):
         from vsc.atools.log_parser import LogParser
         log_parser = LogParser()

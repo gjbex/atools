@@ -157,13 +157,19 @@ class LogAnalyzer(object):
         seconds, and the number of items computed by the slave'''
         no_failed = ' AND e.exit_code = 0' if exclude_failed else ''
         sql = '''
-            SELECT s.slave_id, SUM(e.end_time - s.start_time), COUNT(*)
+            SELECT s.slave_id, s.item_id, e.end_time - s.start_time
                 FROM work_items AS s, results AS e
                 WHERE s.item_id = e.item_id{0}
-                GROUP BY s.slave_id
-                ORDER BY s.slave_id;'''.format(no_failed)
+                ORDER BY s.slave_id, s.item_id;'''.format(no_failed)
         cursor = self._conn.cursor()
         return cursor.execute(sql).fetchall()
+
+    def nr_slaves(self):
+        sql = '''
+            SELECT COUNT(DISTINCT slave_id)
+                FROM work_items'''
+        cursor = self._conn.cursor()
+        return cursor.execute(sql).fetchone()
 
     def item_stats(self, exclude_failed=False):
         '''returns a tuple containing the number of items computed,
@@ -185,15 +191,18 @@ class LogAnalyzer(object):
         the minimum, average, and maximum run time'''
         no_failed = ' AND e.exit_code = 0' if exclude_failed else ''
         sql = '''
-            SELECT COUNT(DISTINCT t.slave_id) AS 'nr. slaves',
+            SELECT t.slave_id as slave,
+                   COUNT(t.item_id) AS 'nr. items',
                    AVG(t.time) AS 'average time per task',
                    MIN(t.time) AS 'minimum time for task',
                    MAX(t.time) AS 'maximum time for task',
                    SUM(t.time) AS 'total time'
                 FROM (SELECT s.slave_id AS slave_id,
+                             s.item_id AS item_id,
                              e.end_time - s.start_time AS time
                           FROM work_items AS s, results AS e
                           WHERE s.item_id = e.item_id{0}) AS t
-                GROUP BY t.slave_id;'''.format(no_failed)
+                GROUP BY t.slave_id
+                ORDER BY t.slave_Id;'''.format(no_failed)
         cursor = self._conn.cursor()
-        return cursor.execute(sql).fetchone()
+        return cursor.execute(sql).fetchall()

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-cat $2 >> $1
+autoreconf --install

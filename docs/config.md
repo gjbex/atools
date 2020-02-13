@@ -21,7 +21,8 @@ The supported batch systems are:
 
 * `torque`: PBS torque,
 * `moab`: Adaptive Computing Moab,
-* `sge`: SUN Grid Engine.
+* `sge`: SUN Grid Engine,
+* `slurm`: Slurm workload manager.
 
 The supported standard reduction modes are:
 

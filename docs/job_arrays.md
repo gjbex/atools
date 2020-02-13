@@ -7,7 +7,8 @@ For the resource managers and schedulers supported by `atools`, that would
 be
 * `PBS_ARRAYID` for PBS torque,
 * `MOAB_JOBARRAYINDEX` for Adaptive's Moab, and
-* `SGE_TASKID` for SUN Grid Engine (SGE).
+* `SGE_TASKID` for SUN Grid Engine (SGE),
+* `SLURM_ARRAY_TASK_ID` for Slurm workload manager.
 
 Typically, this task identifier is then use to determine, e.g., the
 specific input file for this task in the job script:

@@ -1,4 +1,5 @@
 # Gathering output
+
 Aggregating the output produced by each task can be somewhat annoying.  The
 `areduce` command helps to do this pretty effortlessly for many cases.
 As the name implies, the aggregation is done through reduction, the
@@ -36,6 +37,24 @@ When one or more tasks failed, you may not want to aggregate the output of
 those tasks since it may be incomplete and/or incorrect.  In that case,
 simply use [`arange`](arange.md) to determine the task identifiers of the
 completed task using the `--list_completed` flag.
+
+Out of the box, atools supports three types of reductions that can be
+specified via  the `--mode` option.
+
+  * `text`: output files are text files, and will simply be concatenated;
+  * `csv`: output files are comma-separated value (CSV) files, the first
+    line of each files contains the column names, and that will not be
+    repeated in the aggregated output, i.e., there will be a single line
+    containing the column names at the top of the file;
+  * `body`: output files are  text files, but you can specify how many
+    lines to skip at the top and the bottom of each file while aggregating.
+
+For example, the following command would aggregate data skipping three lines
+at the top, and five lines at the bottom of each individual output file:
+```bash
+$ areduce  -t 1-250  --pattern 'out-{t}.txt'  --out out.txt  \
+           --mode body  --reduce_args '--h 3  -f 5'
+```
 
 To handle more interesting cases, you can supply two scripts that
 each take two arguments: the name of the resulting file, and the name of

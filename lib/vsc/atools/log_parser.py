@@ -39,7 +39,7 @@ class LogEvent(object):
 
     event_types = ['started', 'completed', 'failed']
     date_fmt = '%Y-%m-%d %H:%M:%S'
-    repr_re = re.compile(r'^(\d+) (\w+) by (\w+) at (.+?)(?::\s+(\d+))?$')
+    repr_re = re.compile(r'^(\d+) (\w+) by ([\w\.\-]+) at (.+?)(?::\s+(\d+))?$')
 
     def __init__(self, time_stamp, event_type, item_id, slave_id,
                  exit_status=None):
