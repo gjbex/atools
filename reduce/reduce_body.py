@@ -11,7 +11,7 @@ if __name__ == '__main__':
     arg_parser.add_argument('--f', type=int, default=0,
                             help='number of footer lines to skip')
     options = arg_parser.parse_args()
-    for _ in xrange(options.h):
+    for _ in range(options.h):
         sys.stdin.readline()
     buffer = []
     for line in sys.stdin:
