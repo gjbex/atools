@@ -32,7 +32,7 @@ def int_ranges2set(ranges):
             lower = int(match.group(1))
             upper = int(match.group(2))
             if lower <= upper:
-                for i in xrange(lower, upper + 1):
+                for i in range(lower, upper + 1):
                     ids.add(i)
                 continue
         raise InvalidRangeSpecError(part_range)

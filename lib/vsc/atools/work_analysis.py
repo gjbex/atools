@@ -2,11 +2,9 @@
 work done'''
 
 import csv 
-import math
 import os
 import sqlite3
 import sys
-import time
 
 from vsc.atools.log_parser import LogParser
 from vsc.atools.int_ranges import int_ranges2set
@@ -44,11 +42,11 @@ def _compute_data_ids(data_files, sniff=1024, no_sniffer=False):
                                             restval=None,
                                             dialect=dialect)
             row_nr = 0
-            for row in csv_reader:
+            for _ in csv_reader:
                 row_nr += 1
             if row_nr < nr_work_items:
                 nr_work_items = row_nr
-    return set(xrange(1, nr_work_items + 1))
+    return set(range(1, nr_work_items + 1))
 
 
 def compute_items_todo(data_files, t_str, log_files, must_redo=False,

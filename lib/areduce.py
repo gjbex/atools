@@ -82,7 +82,7 @@ if __name__ == '__main__':
                 msg = "### warming: '{0}' does not exist\n".format(filename)
                 sys.stderr.write(msg)
             array_id_idx += 1
-        for idx in xrange(array_id_idx, len(array_ids)):
+        for idx in range(array_id_idx, len(array_ids)):
             array_id = array_ids[idx]
             args = {
                 't': array_id,

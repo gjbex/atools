@@ -1,6 +1,10 @@
 '''Module containing utilities to deal with configuration files'''
 
-import ConfigParser
+import sys
+try:
+    from configparser import SafeConfigParser, Error
+except:
+    from ConfigParser import SafeConfigParser, Error
 
 from vsc.atools.utils import ArrayToolsError
 
@@ -19,18 +23,18 @@ class ConfigFileError(ArrayToolsError):
 
 def get_default_shell(config_filename):
     '''returns the default shell specified in the configuration file'''
-    config_parser = ConfigParser.SafeConfigParser()
+    config_parser = SafeConfigParser()
     try:
         config_parser.read(config_filename)
         return config_parser.get('global', 'shell', None)
-    except ConfigParser.Error as error:
+    except Error as error:
         raise ConfigFileError(str(error))
 
 
 def get_var_config(config_filename):
     '''returns a dictionary with the relevant shell variable names for
     for the selected batch system'''
-    config_parser = ConfigParser.SafeConfigParser()
+    config_parser = SafeConfigParser()
     try:
         config_parser.read(config_filename)
         batch_system = config_parser.get('global', 'batch_system', None)
@@ -38,14 +42,14 @@ def get_var_config(config_filename):
         for key, value in config_parser.items(batch_system):
             var_names[key] = value
         return var_names
-    except ConfigParser.Error as error:
+    except Error as error:
         raise ConfigFileError(str(error))
 
 
 def get_mode_config(config_filename, mode=None):
     '''Retrieve the empty and reduce script for the given mode, or for
     the default if none is given'''
-    config_parser = ConfigParser.SafeConfigParser()
+    config_parser = SafeConfigParser()
     try:
         config_parser.read(config_filename)
         if not mode:
@@ -53,5 +57,5 @@ def get_mode_config(config_filename, mode=None):
         empty_script = config_parser.get(mode, 'empty')
         reduce_script = config_parser.get(mode, 'reduce')
         return empty_script, reduce_script
-    except ConfigParser.Error as error:
+    except Error as error:
         raise ConfigFileError(str(error))

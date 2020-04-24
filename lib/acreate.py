@@ -2,6 +2,7 @@
 
 from argparse import ArgumentParser
 import os
+import sys
 
 from vsc.shell import get_shells, create_var_def, UnknownShellError
 from vsc.atools.config import get_default_shell, ConfigFileError
@@ -10,7 +11,7 @@ from vsc.atools.config import get_default_shell, ConfigFileError
 def parse_job_script(filename):
     with open(filename, 'r') as job_file:
         preamble = ''
-        while (True):
+        while True:
             line = job_file.readline()
             if line.lstrip().startswith('#'):
                 preamble += line
@@ -21,6 +22,7 @@ def parse_job_script(filename):
         for line in job_file:
             payload += line
     return preamble.rstrip(), payload.rstrip()
+
 
 if __name__ == '__main__':
     arg_parser = ArgumentParser(description='create a job script with '
