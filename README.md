@@ -61,7 +61,7 @@ In no particular order...
 
 
 ## Contributors
-* [Geert Jan Bex](geertjan.bex@uhasselt.be), Hasselt University/University
+* [Geert Jan Bex](mailto:geertjan.bex@uhasselt.be), Hasselt University/University
     of Leuven
 * Stefan Becuwe, Antwerp University
   * Fixes to the documentation
