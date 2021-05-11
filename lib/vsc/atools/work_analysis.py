@@ -57,7 +57,7 @@ def compute_items_todo(data_files, t_str, log_files, must_redo=False,
         todo = (_compute_data_ids(data_files, sniff, no_sniffer) &
                 int_ranges2set(t_str))
     elif data_files:
-        todo = _compute_data_ids(data_files, sniff)
+        todo = _compute_data_ids(data_files, sniff, no_sniffer)
     elif t_str:
         todo = int_ranges2set(t_str)
     else:

@@ -72,3 +72,5 @@ In no particular order...
 * Kurt Lust, Antwerp University
   * Several bug reports and fixes
   * Added Slurm compatibility
+* Robin Verschoren, Antwerp University
+  * Bug report and fix suggestion
