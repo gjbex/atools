@@ -26,7 +26,7 @@ class TestIntRanges(unittest.TestCase):
         self.assertEqual(expected_set, int_ranges2set('1-10,21-30'))
 
     def test_multiple_ind2set(self):
-        expected_set = set(range(5, 11)) | set(range(21, 31))
+        expected_set = set(list(range(5, 11))) | set(list(range(21, 31)))
         expected_set.add(3)
         expected_set.add(15)
         expected_set.add(35)
@@ -58,17 +58,17 @@ class TestIntRanges(unittest.TestCase):
 
     def test_contiguous2range(self):
         expected_range = '3-8'
-        int_range = set2int_ranges(set(xrange(3, 9)))
+        int_range = set2int_ranges(set(range(3, 9)))
         self.assertEqual(expected_range, int_range)
 
     def test_multiple2range(self):
         expected_range = '3-8,11-13'
-        int_range = set2int_ranges(set(range(3, 9) + range(11, 14)))
+        int_range = set2int_ranges(set(list(range(3, 9)) + list(range(11, 14))))
         self.assertEqual(expected_range, int_range)
 
     def test_multiple_singleton_range(self):
         expected_range = '1,3-8,11,15-19,23'
-        range_set = set(range(3, 9) + range(15, 20) + [1, 11, 23])
+        range_set = set(list(range(3, 9)) + list(range(15, 20)) + [1, 11, 23])
         int_range = set2int_ranges(range_set)
         self.assertEqual(expected_range, int_range)
 

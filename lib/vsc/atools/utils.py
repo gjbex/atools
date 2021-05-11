@@ -5,7 +5,7 @@ class ArrayToolsError(Exception):
     '''Base class for all atools exceptions'''
 
     def __init__(self):
-        super(ArrayToolsError, self).__init__()
+        super().__init__()
 
 
 class EndOfFileError(ArrayToolsError):
@@ -13,7 +13,7 @@ class EndOfFileError(ArrayToolsError):
 
     def __init__(self, data_id, row_nr):
         '''The id exceeds the number of rows in the CSV file'''
-        super(EndOfFileError, self).__init__()
+        super().__init__()
         self._id = data_id
         self._row_nr = row_nr
         self.errno = 21
