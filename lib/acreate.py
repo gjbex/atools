@@ -28,7 +28,7 @@ if __name__ == '__main__':
     arg_parser = ArgumentParser(description='create a job script with '
                                             'support for atools')
     arg_parser.add_argument('--data', nargs='*', help='CSV files to use')
-    arg_parser.add_argument('--shell', choices=get_shells(),
+    arg_parser.add_argument('--shell', choices=get_shells(), default='bash',
                             help='shell to generate defintions for')
     arg_parser.add_argument('--tmpl', help='template file to use')
     arg_parser.add_argument('job_script', help='job script to use')
