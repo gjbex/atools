@@ -21,7 +21,7 @@ def show_item_times(analyzer, no_failed, csv_format=False):
 
 
 def show_slave_times(analyzer, no_failed, csv_format=False):
-    field_names = ('slave ID', 'time (s)', 'count')
+    field_names = ('slave ID', 'count', 'time (s)')
     if csv_format:
         print('{0},{1},{2}'.format(*field_names))
     else:
