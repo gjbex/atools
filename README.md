@@ -42,7 +42,7 @@ cost by a large factor compared to using the
 
 
 ## Requirements
-`atools` requires at least Python 2.7.x, but only uses the standard
+`atools` requires at least Python 3.2, but only uses the standard
 library.
 
 Currently, PBS torque, Adaptive Computing Moab, SUN Grid Engine and
