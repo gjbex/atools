@@ -15,7 +15,7 @@ batch_system = torque
 mode = text
 # default Linux shell
 shell = bash
-````
+```
 
 The supported batch systems are:
 
