@@ -74,3 +74,5 @@ In no particular order...
   * Added Slurm compatibility
 * Robin Verschoren, Antwerp University
   * Bug report and fix suggestion
+* Damien Francois, Unversite Catholique de Louvain-la-Neuve
+  * Fix typos
