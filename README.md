@@ -46,7 +46,8 @@ cost by a large factor compared to using the
 library.
 
 Currently, PBS torque, Adaptive Computing Moab, SUN Grid Engine and
-Slurm workload manager are supported.
+Slurm workload manager are supported.  Slurm is the default, but
+that can be change during installation.
 
 
 ## Installing
