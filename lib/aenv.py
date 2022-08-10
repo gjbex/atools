@@ -8,7 +8,7 @@ import sys
 from vsc.shell import create_var_defs, get_shells, UnknownShellError
 from vsc.atools.config import (get_var_config, get_default_shell,
                                ConfigFileError)
-from vsc.atools.utils import EnvVarError, EndOfFileError
+from vsc.atools.utils import EnvVarError, EndOfFileError, SnifferError
 
 
 
@@ -55,7 +55,13 @@ if __name__ == '__main__':
                                                 restval=None)
                 else:
                     sniff_bytes = csv_file.read(options.sniff)
-                    dialect = csv.Sniffer().sniff(sniff_bytes)
+                    try:
+                        dialect = csv.Sniffer().sniff(sniff_bytes)
+                    except csv.Error as e:
+                        if 'not determine delimiter' in str(e):
+                            raise SnifferError(e)
+                        else:
+                            raise e
                     csv_file.seek(0)
                     csv_reader = csv.DictReader(csv_file, fieldnames=None,
                                                 restkey='rest',
@@ -86,6 +92,10 @@ if __name__ == '__main__':
         sys.stderr.write(msg)
         sys.exit(error.errno)
     except UnknownShellError as error:
+        msg = '### error: {0}'.format(str(error))
+        sys.stderr.write(msg)
+        sys.exit(error.errno)
+    except SnifferError as error:
         msg = '### error: {0}'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)

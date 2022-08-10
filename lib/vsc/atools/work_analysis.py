@@ -8,7 +8,7 @@ import sys
 
 from vsc.atools.log_parser import LogParser
 from vsc.atools.int_ranges import int_ranges2set
-from vsc.atools.utils import ArrayToolsError
+from vsc.atools.utils import ArrayToolsError, SnifferError
 
 
 class MissingSourceError(ArrayToolsError):
@@ -35,7 +35,13 @@ def _compute_data_ids(data_files, sniff=1024, no_sniffer=False):
                                             restval=None)
             else:
                 sniffer = csv.Sniffer()
-                dialect = sniffer.sniff(csv_file.read(sniff))
+                try:
+                    dialect = sniffer.sniff(csv_file.read(sniff))
+                except csv.Error as e:
+                    if 'not determine delimiter' in str(e):
+                        raise SnifferError(e)
+                    else:
+                        raise e
                 csv_file.seek(0)
                 csv_reader = csv.DictReader(csv_file, fieldnames=None,
                                             restkey='rest',
