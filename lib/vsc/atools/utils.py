@@ -5,7 +5,7 @@ class ArrayToolsError(Exception):
     '''Base class for all atools exceptions'''
 
     def __init__(self):
-        super(ArrayToolsError, self).__init__()
+        super().__init__()
 
 
 class EndOfFileError(ArrayToolsError):
@@ -13,7 +13,7 @@ class EndOfFileError(ArrayToolsError):
 
     def __init__(self, data_id, row_nr):
         '''The id exceeds the number of rows in the CSV file'''
-        super(EndOfFileError, self).__init__()
+        super().__init__()
         self._id = data_id
         self._row_nr = row_nr
         self.errno = 21
@@ -37,3 +37,18 @@ class EnvVarError(ArrayToolsError):
     def __str__(self):
         msg = "enviroment variable '{0}' not defined"
         return msg.format(self._var_name)
+
+
+class SnifferError(ArrayToolsError):
+    '''Exception denoting that the CSV sniffer failed to determine
+    the CSV dialect'''
+
+    def __init__(self, error):
+        self.errno = 23
+        self._error = str(error)
+
+    def __str__(self):
+        msg = 'sniffer error: {error}'.format(error=self._error)
+        msg += '\n  if you have a one-column data file, use the --no_sniffer options'
+        msg += '\n  otherwise, try a larger vaue for --sniff'
+        return msg

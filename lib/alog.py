@@ -19,11 +19,12 @@ def get_log_name(var_names):
     try:
         job_name = os.environ[var_names['job_name_var']]
         job_id = os.environ[var_names['job_id_var']]
+        submission_dir = os.environ[var_names['submission_dir']]
     except KeyError as error:
         raise EnvVarError(error.args[0])
     job_name = re.sub(r'-\d+$', '', job_name)
     job_id = re.sub(r'\[\d+\].*$', '', job_id)
-    return '{0}.log{1}'.format(job_name, job_id)
+    return '{0}/{1}.log{2}'.format(submission_dir, job_name, job_id)
 
 
 def create_start_msg(var_names):

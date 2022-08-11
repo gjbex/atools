@@ -8,6 +8,7 @@ from vsc.atools.int_ranges import (int_ranges2set, set2int_ranges,
 from vsc.atools.log_parser import LogParser, InvalidLogEntryError
 from vsc.atools.work_analysis import (compute_items_todo,
                                       MissingSourceError)
+from vsc.atools.utils import SnifferError
 
 
 if __name__ == '__main__':
@@ -68,6 +69,10 @@ if __name__ == '__main__':
         sys.stderr.write(msg)
         sys.exit(error.errno)
     except InvalidLogEntryError as error:
+        msg = '### error: {0}'.format(str(error))
+        sys.stderr.write(msg)
+        sys.exit(error.errno)
+    except SnifferError as error:
         msg = '### error: {0}'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)

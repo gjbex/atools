@@ -34,10 +34,10 @@ class TestLogParser(unittest.TestCase):
         expected_time = datetime(2016, 9, 2, 11, 47, 46 )
         event_str = '4 started by r1i1n3 at 2016-09-02 11:47:46'
         event = LogEvent.parse_str(event_str)
-        self.assertEquals(expected_type, event.type)
-        self.assertEquals(expected_item_id, event.item_id)
-        self.assertEquals(expected_slave_id, event.slave_id)
-        self.assertEquals(expected_time, event.time_stamp)
+        self.assertEqual(expected_type, event.type)
+        self.assertEqual(expected_item_id, event.item_id)
+        self.assertEqual(expected_slave_id, event.slave_id)
+        self.assertEqual(expected_time, event.time_stamp)
         
     def test_failed_event(self):
         from vsc.atools.log_parser import LogEvent
@@ -48,11 +48,11 @@ class TestLogParser(unittest.TestCase):
         expected_exit_status = 1
         event_str = '5 failed by r1i1n3 at 2016-09-02 11:47:47: 1'
         event = LogEvent.parse_str(event_str)
-        self.assertEquals(expected_type, event.type)
-        self.assertEquals(expected_item_id, event.item_id)
-        self.assertEquals(expected_slave_id, event.slave_id)
-        self.assertEquals(expected_time, event.time_stamp)
-        self.assertEquals(expected_exit_status, event.exit_status)
+        self.assertEqual(expected_type, event.type)
+        self.assertEqual(expected_item_id, event.item_id)
+        self.assertEqual(expected_slave_id, event.slave_id)
+        self.assertEqual(expected_time, event.time_stamp)
+        self.assertEqual(expected_exit_status, event.exit_status)
 
     def test_completed_event(self):
         from vsc.atools.log_parser import LogEvent
@@ -63,11 +63,11 @@ class TestLogParser(unittest.TestCase):
         expected_exit_status = 0
         event_str = '10 completed by r1i1n3 at 2016-09-02 11:47:53'
         event = LogEvent.parse_str(event_str)
-        self.assertEquals(expected_type, event.type)
-        self.assertEquals(expected_item_id, event.item_id)
-        self.assertEquals(expected_slave_id, event.slave_id)
-        self.assertEquals(expected_time, event.time_stamp)
-        self.assertEquals(expected_exit_status, event.exit_status)
+        self.assertEqual(expected_type, event.type)
+        self.assertEqual(expected_item_id, event.item_id)
+        self.assertEqual(expected_slave_id, event.slave_id)
+        self.assertEqual(expected_time, event.time_stamp)
+        self.assertEqual(expected_exit_status, event.exit_status)
 
     def test_parse_file(self):
         from vsc.atools.log_parser import LogParser
@@ -78,16 +78,16 @@ class TestLogParser(unittest.TestCase):
         file_name = 'data/test.log'
         log_parser = LogParser()
         events = log_parser.parse(file_name)
-        self.assertEquals(expected_nr_events, len(events))
-        self.assertEquals(expected_nr_started,
-                          len(filter(lambda x: x.type == 'started',
-                                     events)))
-        self.assertEquals(expected_nr_completed,
-                          len(filter(lambda x: x.type == 'completed',
-                                     events)))
-        self.assertEquals(expected_nr_failed,
-                          len(filter(lambda x: x.type == 'failed',
-                                     events)))
+        self.assertEqual(expected_nr_events, len(events))
+        self.assertEqual(expected_nr_started,
+                         len(list(filter(lambda x: x.type == 'started',
+                                         events))))
+        self.assertEqual(expected_nr_completed,
+                         len(list(filter(lambda x: x.type == 'completed',
+                                         events))))
+        self.assertEqual(expected_nr_failed,
+                         len(list(filter(lambda x: x.type == 'failed',
+                                         events))))
         last_time = datetime.now()
         for event in reversed(events):
             self.assertTrue(last_time >= event.time_stamp)
@@ -102,16 +102,16 @@ class TestLogParser(unittest.TestCase):
         file_name = 'data/test_hopper.log'
         log_parser = LogParser()
         events = log_parser.parse(file_name)
-        self.assertEquals(expected_nr_events, len(events))
-        self.assertEquals(expected_nr_started,
-                          len(filter(lambda x: x.type == 'started',
-                                     events)))
-        self.assertEquals(expected_nr_completed,
-                          len(filter(lambda x: x.type == 'completed',
-                                     events)))
-        self.assertEquals(expected_nr_failed,
-                          len(filter(lambda x: x.type == 'failed',
-                                     events)))
+        self.assertEqual(expected_nr_events, len(events))
+        self.assertEqual(expected_nr_started,
+                         len(list(filter(lambda x: x.type == 'started',
+                                         events))))
+        self.assertEqual(expected_nr_completed,
+                         len(list(filter(lambda x: x.type == 'completed',
+                                         events))))
+        self.assertEqual(expected_nr_failed,
+                         len(list(filter(lambda x: x.type == 'failed',
+                                         events))))
         last_time = datetime.now()
         for event in reversed(events):
             self.assertTrue(last_time >= event.time_stamp)

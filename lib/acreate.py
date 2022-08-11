@@ -11,7 +11,7 @@ from vsc.atools.config import get_default_shell, ConfigFileError
 def parse_job_script(filename):
     with open(filename, 'r') as job_file:
         preamble = ''
-        while (True):
+        while True:
             line = job_file.readline()
             if line.lstrip().startswith('#'):
                 preamble += line
@@ -23,11 +23,12 @@ def parse_job_script(filename):
             payload += line
     return preamble.rstrip(), payload.rstrip()
 
+
 if __name__ == '__main__':
     arg_parser = ArgumentParser(description='create a job script with '
                                             'support for atools')
     arg_parser.add_argument('--data', nargs='*', help='CSV files to use')
-    arg_parser.add_argument('--shell', choices=get_shells(),
+    arg_parser.add_argument('--shell', choices=get_shells(), default='bash',
                             help='shell to generate defintions for')
     arg_parser.add_argument('--tmpl', help='template file to use')
     arg_parser.add_argument('job_script', help='job script to use')

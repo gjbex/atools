@@ -16,9 +16,9 @@ class TestWorkAnalysis(unittest.TestCase):
         log_files = ['data/test.log']
         todo, completed, failed = compute_items_todo(data_files, t_str,
                                                      log_files)
-        self.assertEquals(expected_todo, todo)
-        self.assertEquals(expected_failed, failed)
-        self.assertEquals(expected_completed, completed)
+        self.assertEqual(expected_todo, todo)
+        self.assertEqual(expected_failed, failed)
+        self.assertEqual(expected_completed, completed)
 
     def test_todo_redo(self):
         from vsc.atools.work_analysis import compute_items_todo 
@@ -31,9 +31,9 @@ class TestWorkAnalysis(unittest.TestCase):
         todo, completed, failed = compute_items_todo(data_files, t_str,
                                                      log_files,
                                                      must_redo=True)
-        self.assertEquals(expected_todo | expected_failed, todo)
-        self.assertEquals(expected_failed, failed)
-        self.assertEquals(expected_completed, completed)
+        self.assertEqual(expected_todo | expected_failed, todo)
+        self.assertEqual(expected_failed, failed)
+        self.assertEqual(expected_completed, completed)
 
     def test_todo_data(self):
         from vsc.atools.work_analysis import compute_items_todo 
@@ -45,9 +45,9 @@ class TestWorkAnalysis(unittest.TestCase):
         log_files = ['data/test.log']
         todo, completed, failed = compute_items_todo(data_files, t_str,
                                                      log_files)
-        self.assertEquals(expected_todo, todo)
-        self.assertEquals(expected_failed, failed)
-        self.assertEquals(expected_completed, completed)
+        self.assertEqual(expected_todo, todo)
+        self.assertEqual(expected_failed, failed)
+        self.assertEqual(expected_completed, completed)
 
     def test_todo_redo_data(self):
         from vsc.atools.work_analysis import compute_items_todo 
@@ -60,9 +60,9 @@ class TestWorkAnalysis(unittest.TestCase):
         todo, completed, failed = compute_items_todo(data_files, t_str,
                                                      log_files,
                                                      must_redo=True)
-        self.assertEquals(expected_todo | expected_failed, todo)
-        self.assertEquals(expected_failed, failed)
-        self.assertEquals(expected_completed, completed)
+        self.assertEqual(expected_todo | expected_failed, todo)
+        self.assertEqual(expected_failed, failed)
+        self.assertEqual(expected_completed, completed)
 
     def test_analysis(self):
         expeted_nr_items = 8
@@ -73,12 +73,10 @@ class TestWorkAnalysis(unittest.TestCase):
         analyzer = LogAnalyzer()
         analyzer.parse(log_file)
         item_times = analyzer.item_times()
-        self.assertEquals(expeted_nr_items, len(item_times))
+        self.assertEqual(expeted_nr_items, len(item_times))
         slave_times = analyzer.slave_times()
-        self.assertEquals(expeted_nr_slaves, len(slave_times))
-        self.assertEquals(expected_slave, slave_times[0][0])
-        total_time = sum([item[2] for item in item_times])
-        self.assertEquals(slave_times[0][1], total_time)
+        self.assertEqual(expeted_nr_items, len(slave_times))
+        self.assertEqual(expected_slave, slave_times[0][0])
                  
 
 if __name__ == '__main__':

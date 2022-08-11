@@ -1,4 +1,4 @@
-AC_INIT([atools], [1.4.8], [geertjan.bex@uhasselt.be])
+AC_INIT([atools], [1.5.0], [geertjan.bex@uhasselt.be])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign tar-pax])
 
 AC_CONFIG_FILES([
@@ -17,7 +17,7 @@ AC_ARG_WITH(
     [batchsystem],
     AS_HELP_STRING(
          [--with-batchsystem=SYSTEM],
-         [Scheduler to use: torque, moab, sge, slurm; default=torque]
+         [Scheduler to use: torque, moab, sge, slurm; default=slurm]
      )
 )
 
@@ -40,7 +40,7 @@ AC_ARG_WITH(
 )
 
 # if unset, set batch system to default, check validity
-AS_IF([test "x$with_batchsystem" == "x"], [with_batchsystem=torque])
+AS_IF([test "x$with_batchsystem" == "x"], [with_batchsystem=slurm])
 AS_CASE([$with_batchsystem],
     [torque], [],
     [moab], [],
