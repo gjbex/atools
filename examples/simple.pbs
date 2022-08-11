@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#PBS -A lpt2_sysadmin
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=3:00:00
+#PBS -j oe
+
+echo $PBS_ARRAYID
