@@ -1,4 +1,4 @@
-AC_INIT([atools], [1.5.0], [geertjan.bex@uhasselt.be])
+AC_INIT([atools], [1.5.1], [geertjan.bex@uhasselt.be])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign tar-pax])
 
 AC_CONFIG_FILES([
