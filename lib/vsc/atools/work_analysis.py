@@ -47,9 +47,7 @@ def _compute_data_ids(data_files, sniff=1024, no_sniffer=False):
                                             restkey='rest',
                                             restval=None,
                                             dialect=dialect)
-            row_nr = 0
-            for _ in csv_reader:
-                row_nr += 1
+            row_nr = len(csv_reader)
             if row_nr < nr_work_items:
                 nr_work_items = row_nr
     return set(range(1, nr_work_items + 1))
@@ -134,7 +132,7 @@ class LogAnalyzer(object):
             INSERT INTO work_items (item_id, slave_id, start_time)
                 VALUES (?, ?, strftime('%s', ?));'''
         for event in log_parser.parse(filename):
-            if event.type == 'completed' or event.type == 'failed':
+            if event.type in ['completed', 'failed']:
                 cursor.execute(results_sql, (event.item_id,
                                              event.exit_status,
                                              event.time_stamp))

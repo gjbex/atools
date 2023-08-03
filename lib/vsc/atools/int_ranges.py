@@ -27,10 +27,9 @@ def int_ranges2set(ranges):
         if part_range.isdigit():
             ids.add(int(part_range))
             continue
-        match = re.search(r'^(\d+)-(\d+)$', part_range)
-        if match:
-            lower = int(match.group(1))
-            upper = int(match.group(2))
+        if match := re.search(r'^(\d+)-(\d+)$', part_range):
+            lower = int(match[1])
+            upper = int(match[2])
             if lower <= upper:
                 for i in range(lower, upper + 1):
                     ids.add(i)
@@ -41,9 +40,8 @@ def int_ranges2set(ranges):
 
 def set2int_ranges(todo):
     '''Compute the ranges of arrays IDs that are still to do'''
-    todo_list = sorted(todo)
     ranges = []
-    if todo_list:
+    if todo_list := sorted(todo):
         range_min = todo_list.pop(0)
         previous = range_min
         while todo_list:

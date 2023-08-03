@@ -35,10 +35,7 @@ def get_var_config(config_filename):
     try:
         config_parser.read(config_filename)
         batch_system = config_parser['global'].get('batch_system', None)
-        var_names = dict()
-        for key, value in config_parser.items(batch_system):
-            var_names[key] = value
-        return var_names
+        return dict(config_parser.items(batch_system))
     except Error as error:
         raise ConfigFileError(str(error))
 

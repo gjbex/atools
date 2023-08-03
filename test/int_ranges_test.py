@@ -10,11 +10,11 @@ class TestIntRanges(unittest.TestCase):
     '''Test stuff implemented in vsc.atools.int_ranges'''
 
     def test_single2set(self):
-        expected_set = set([2])
+        expected_set = {2}
         self.assertEqual(expected_set, int_ranges2set('2'))
 
     def test_ind2set(self):
-        expected_set = set([2, 4, 8])
+        expected_set = {2, 4, 8}
         self.assertEqual(expected_set, int_ranges2set('2,4,8'))
 
     def test_simple2set(self):
@@ -48,7 +48,7 @@ class TestIntRanges(unittest.TestCase):
 
     def test_singletno2range(self):
         expected_range = '3'
-        int_range = set2int_ranges(set([3]))
+        int_range = set2int_ranges({3})
         self.assertEqual(expected_range, int_range)
 
     def test_empty2range(self):

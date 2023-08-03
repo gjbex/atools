@@ -57,22 +57,20 @@ class LogEvent(object):
     @classmethod
     def parse_str(cls, log_str):
         '''Parse given log string, and retrun a list of events'''
-        match = cls.repr_re.match(log_str.rstrip())
-        if match:
-            event_type = match.group(2)
-            item_id = int(match.group(1))
-            slave_id = match.group(3)
-            time_stamp = match.group(4)
-            if event_type == 'failed':
-                exit_status = int(match.group(5))
-            elif event_type == 'completed':
-                exit_status = 0
-            else:
-                exit_status = None
-            return LogEvent(time_stamp, event_type, item_id, slave_id,
-                            exit_status)
-        else:
+        if not (match := cls.repr_re.match(log_str.rstrip())):
             raise InvalidLogEntryError(log_str.rstrip())
+        event_type = match.group(2)
+        item_id = int(match.group(1))
+        slave_id = match.group(3)
+        time_stamp = match.group(4)
+        if event_type == 'failed':
+            exit_status = int(match.group(5))
+        elif event_type == 'completed':
+            exit_status = 0
+        else:
+            exit_status = None
+        return LogEvent(time_stamp, event_type, item_id, slave_id,
+                        exit_status)
 
     @property
     def type(self):
@@ -119,11 +117,10 @@ class LogParser(object):
             try:
                 events.append(LogEvent.parse_str(line.rstrip()))
             except InvalidLogEntryError as error:
-                if ignore_invalid:
-                    msg = '### warning: {0}\n'.format(str(error))
-                    sys.stderr.write(msg)
-                else:
+                if not ignore_invalid:
                     raise error
+                msg = '### warning: {0}\n'.format(str(error))
+                sys.stderr.write(msg)
         events.sort(key=attrgetter('time_stamp'))
         return events
 

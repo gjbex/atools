@@ -40,10 +40,7 @@ if __name__ == '__main__':
         conf_filename = os.path.join(os.path.dirname(__file__),
                                      '..', 'conf', 'atools.conf')
     try:
-        if options.shell:
-            shell = options.shell
-        else:
-            shell = get_default_shell(conf_filename)
+        shell = options.shell if options.shell else get_default_shell(conf_filename)
         bin_path = os.path.join(os.path.dirname(__file__), '..', 'bin')
         set_path = create_var_def('PATH',
                                   '{0}:${{PATH}}'.format(bin_path),

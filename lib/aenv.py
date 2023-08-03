@@ -35,10 +35,7 @@ if __name__ == '__main__':
         conf_filename = os.path.join(os.path.dirname(__file__),
                                      '..', 'conf', 'atools.conf')
     try:
-        if options.shell:
-            shell = options.shell
-        else:
-            shell = get_default_shell(conf_filename)
+        shell = options.shell if options.shell else get_default_shell(conf_filename)
         var_names = get_var_config(conf_filename)
         if options.id:
             work_item_id = options.id

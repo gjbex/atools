@@ -9,7 +9,7 @@ class TestShell(unittest.TestCase):
 
     def test_shells(self):
         from vsc.shell import get_shells
-        expected_shells = set(['bash', 'sh', 'tcsh', 'csh'])
+        expected_shells = {'bash', 'sh', 'tcsh', 'csh'}
         self.assertEqual(expected_shells, set(get_shells()))
 
     def test_bash_var(self):
@@ -39,11 +39,7 @@ class TestShell(unittest.TestCase):
         
     def test_sh_vars(self):
         from vsc.shell import create_var_defs
-        expected_var_defs = set([
-            'export a="b"',
-            'export c="d"',
-            'export e="f"',
-        ])
+        expected_var_defs = {'export a="b"', 'export c="d"', 'export e="f"'}
         vars = {
             'a': 'b',
             'c': 'd',
@@ -55,11 +51,7 @@ class TestShell(unittest.TestCase):
 
     def test_tcsh_vars(self):
         from vsc.shell import create_var_defs
-        expected_var_defs = set([
-            'setenv a "b"',
-            'setenv c "d"',
-            'setenv e "f"',
-        ])
+        expected_var_defs = {'setenv a "b"', 'setenv c "d"', 'setenv e "f"'}
         vars = {
             'a': 'b',
             'c': 'd',

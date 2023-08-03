@@ -44,9 +44,7 @@ def create_var_defs(row, shell):
         formatter = formatters[shell]
     except KeyError:
         raise UnknownShellError(shell)
-    def_strs = []
-    for variable in row:
-        def_strs.append(formatter(variable, row[variable]))
+    def_strs = [formatter(variable, row[variable]) for variable in row]
     return os.linesep.join(def_strs)
 
 

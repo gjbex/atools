@@ -48,7 +48,9 @@ class SnifferError(ArrayToolsError):
         self._error = str(error)
 
     def __str__(self):
-        msg = 'sniffer error: {error}'.format(error=self._error)
-        msg += '\n  if you have a one-column data file, use the --no_sniffer options'
+        msg = (
+            'sniffer error: {error}'.format(error=self._error)
+            + '\n  if you have a one-column data file, use the --no_sniffer options'
+        )
         msg += '\n  otherwise, try a larger vaue for --sniff'
         return msg

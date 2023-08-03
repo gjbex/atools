@@ -47,10 +47,7 @@ def create_end_msg(exit_code, var_names):
         raise EnvVarError(error.args[0])
     hostname = socket.gethostname()
     time_stamp = time.strftime(LogEvent.date_fmt, time.localtime())
-    if exit_code == 0:
-        event_type = 'completed'
-    else:
-        event_type = 'failed'
+    event_type = 'completed' if exit_code == 0 else 'failed'
     event = LogEvent(time_stamp, event_type, work_item_id, hostname,
                      exit_code)
     return str(event)
