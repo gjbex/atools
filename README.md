@@ -62,13 +62,14 @@ details, see the [documentation](http://atools.readthedocs.io/en/latest/).
 ## Planned features
 
 In no particular order...
+
 * Template based job script creation
 * Indexed data files for scaling to very large numbers of tasks.
 
 
 ## Contributors
 
-* [Geert Jan Bex](geertjan.bex@uhasselt.be), Hasselt University/University
+* [Geert Jan Bex](mailto:geertjan.bex@uhasselt.be), Hasselt University/University
     of Leuven
 * Stefan Becuwe, Antwerp University
   * Fixes to the documentation
@@ -79,3 +80,7 @@ In no particular order...
 * Kurt Lust, Antwerp University
   * Several bug reports and fixes
   * Added Slurm compatibility
+* Robin Verschoren, Antwerp University
+  * Bug report and fix suggestion
+* Damien Francois, Unversite Catholique de Louvain-la-Neuve
+  * Fix typos
