@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env -S bash -l
 
 # set PATH to find arange executable
 PATH="../bin:$PATH"
