@@ -29,11 +29,13 @@ common tasks with minimal modification of job scripts.
 
 
 ## Documentation
+
 Full documentation is available on
 [Read the Docs](http://atools.readthedocs.io/en/latest/).
 
 
 ## Important note
+
 If you use job arrays on a HPC system that accounts for compute time,
 remember that each job in the array is account as an individual job.
 Depending on the number of cores used by a job, this may increase the
@@ -42,6 +44,7 @@ cost by a large factor compared to using the
 
 
 ## Requirements
+
 `atools` requires at least Python 3.2, but only uses the standard
 library.
 
@@ -51,17 +54,20 @@ that can be change during installation.
 
 
 ## Installing
+
 After downloading and unpacking, simply run `configure` and `make`.  For
 details, see the [documentation](http://atools.readthedocs.io/en/latest/).
 
 
 ## Planned features
+
 In no particular order...
 * Template based job script creation
 * Indexed data files for scaling to very large numbers of tasks.
 
 
 ## Contributors
+
 * [Geert Jan Bex](geertjan.bex@uhasselt.be), Hasselt University/University
     of Leuven
 * Stefan Becuwe, Antwerp University
