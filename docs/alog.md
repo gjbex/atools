@@ -1,4 +1,5 @@
 # Logging for fun and profit
+
 Often, it is useful to log information about the execution of individual
 tasks.  This information can be used
 
@@ -16,22 +17,25 @@ centralized logging in a single file.  This requires a POSIX compliant
 shared file system when the job is running on multiple compute nodes.
 
 Again, consider the fragment of the job script:
+
 ```bash
-#!/bin/bash
+#!/usr/bin/env -S bash -l
 ...
 alpha=0.5
 beta=-1.3
 Rscript bootstrap.R $alpha $beta
 ...
 ```
+
 (Note that `aenv` was not used here, which was done to stress the point
 that `alog` and `aenv` are independent of one another, but obviously can
 be combined.)
 
 To enable logging, a call to `alog` is added as the first and the last
 executable line of the job script, i.e.,
+
 ```bash
-#!/bin/bash
+#!/usr/bin/env -S bash -l
 ...
 alog --state start
 alpha=0.5
@@ -39,6 +43,7 @@ beta=-1.3
 Rscript bootstrap.R $alpha $beta
 alog  --state end  --exit $?
 ```
+
 Here we assume that the exit status of the last actual job command
 (`Rscript` in this example) is also the exit status of the task.  The
 Linux convention is that exit code 0 signifies success, any value between
@@ -52,14 +57,15 @@ The resulting log file is automatically created, and its name will be
 the conventions of the queue system or scheduler used.
 
 The log file will look like, e.g.,
-```
 
+```
 1 started by r1i1n3 at 2016-09-02 11:47:45
 2 started by r1i1n3 at 2016-09-02 11:47:45
 3 started by r1i1n3 at 2016-09-02 11:47:46
 2 failed by r1i1n3 at 2016-09-02 11:47:46: 1
 3 completed by r1i1n3 at 2016-09-02 11:47:47
 ```
+
 The format is `<task-id> <status> by <node-name> at <time-stamp>`, followed
 by `: <exit-status>` for failed jobs.  For this particular example, task
 1 didn't complete, 2 failed, and 3 completed successfully.

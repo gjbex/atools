@@ -1,9 +1,8 @@
 #!/usr/bin/env -S bash -l
-#PBS -l nodes=1:ppn=1
-#PBS -l walltime=00:05:00
+#SBATCH --nodes=1  --ntasks=1
+#SBATCH --time=00:05:00
 
 # not needed in real script, this is only to localize test
-cd $PBS_O_WORKDIR
 PATH="../bin:$PATH"
 
 # log start of work item execution
@@ -12,8 +11,7 @@ alog --state start
 # define work item parameters
 source <(aenv --data data.csv)
 
-# do actual work, i.e., original PBS script
-cd $PBS_O_WORKDIR
+# do actual work, i.e., original Slurm script
 echo "alpha = $alpha"
 echo "beta = $beta"
 echo "gamma = $gamma"
