@@ -16,12 +16,12 @@ $ acreate  jobscript.slurm  >  jobscript_atools.slurm
 If `aenv` is to be used, in addition to logging, you simply add the
 `--data` option:
 ```bash
-$ acreate  --data data.csv --  bootstrap.pbs  > bootstrap_atools.pbs
+$ acreate  --data data.csv --  jobscript.slurm  > jobscript_atools.slurm
 ```
 
 The default shell is the one specified in the configuration file, but
 this can be overridden on the command line using the `--shell` option,
-e.g., if `bootstrap.pbs` where a tcsh shell script, you would use
+e.g., if `jobscript.slurm` where a tcsh shell script, you would use
 
 ```bash
 $ acreate  --shell tcsh  jobscript.slurm  >  jobscript_atools.slurm

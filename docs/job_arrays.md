@@ -35,13 +35,13 @@ the submission command, `qsub` for PBS torque, SUN grid engine, `msub`
 for Moab and `--array=<int-range>` to `sbatch` for Slurm, e.g., for Slurm:
 
 ```bash
-$ sbatch  --array=1-250  bootstrap.sh
+$ sbatch  --array=1-250  jobscript.slurm
 ```
 
 Similarly, for PBS torque:
 
 ```bash 
-$ qsub  -t 1-250  bootstrap.pbs
+$ qsub  -t 1-250  jobscript.pbs
 ```
 
 The submission command above would create a job array of 250 tasks, and
