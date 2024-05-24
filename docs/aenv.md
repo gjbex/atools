@@ -1,4 +1,5 @@
 # Getting your parameters: `aenv`
+
 The parameters for tasks can be stored in an CSV file, where the first
 row is simply the names of the parameters, and each consecutive row
 represents the values of these parameters for a specific experiment, i.e.,
@@ -7,19 +8,22 @@ computational task.
 `aenv` will use the task identifier as an index into this CSV file, and
 define environment variables with the appropriate values for that task.
 As an example, consider the following PBS script:
+
 ```bash
-#!/bin/bash
+#!/usr/bin/env -S bash -l
 ...
 alpha=0.5
 beta=-1.3
 Rscript bootstrap.R $alpha $beta
 ...
 ```
+
 However, this approach would lead to as many job scripts are there are
 parameter instances, which is inconvenient to say the least.
 
 This computation would have to be done for many values for `alpha` and
 `beta`.  These values can be represented in an CSV file, `data.csv`:
+
 ```
 alpha,beta
 0.5,-1.3
@@ -28,15 +32,18 @@ alpha,beta
 0.6,-1.3
 ...
 ```
+
 The job script can be modified to automatically define the appropriate
 values for `alpha` and `beta` specific for the task.
+
 ```bash
-#!/bin/bash
+#!/usr/bin/env -S bash -l
 ...
 source <(aenv --data data.csv)
 Rscript bootstrap.R $alpha $beta
 ...
 ```
+
 `aenv` will use the value of the task identifier to read the corresponding
 row in the `data.csv` CSV file, and export the variables `alpha` and `beta`
 with those values.
