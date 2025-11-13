@@ -1,8 +1,11 @@
 # FAQ
 
-**`aenv` is neat, but I don't care about job arrays, can it still be used?**
+**`aenv` and `arange` seem to break when my data file has a single column, what
+should I do?**
 
-Yes, it can.  Simply use the `--id` option to specify a row in a CSV file.
+The sniffer gets confused, you can use the `--no_sniffer` option to deactivate
+it.  Since the data format is very simple in that case, the defaults should do
+the right thing.
 
 
 **It seems that `arange` isn't useful unless you work with a CSV file for
@@ -19,9 +22,6 @@ tasks that were done before, why?**
 Remember to pass *all* relevant log files to `arange`, not only the last one.
 
 
-**`aenv` and `arange` seem to break when my data file has a single column, what
-should I do?**
+**`aenv` is neat, but I don't care about job arrays, can it still be used?**
 
-The sniffer gets confused, you can use the `--no_sniffer` option to deactivate
-it.  Since the data format is very simple in that case, the defaults should do
-the right thing.
+Yes, it can.  Simply use the `--id` option to specify a row in a CSV file.
