@@ -12,7 +12,7 @@ would otherwise do with [`aenv`](aenv.md) and [`alog`](alog.md):
 
 * it defines environment variables with the values of the task's row in
   the CSV file, and
-* it logs the start and end of each task, so that
+* by default, it logs the start and end of each task, so that
   [`arange`](arange.md) and [`aload`](aload.md) work as usual.
 
 Grouping tasks is only supported for Slurm.  For other batch systems,
@@ -133,7 +133,8 @@ size from the step in the range, so a range without a step, e.g.,
 1. `--log <files>`: log files of previous runs, tasks that completed are
     skipped.
 1. `--redo`: also run the tasks that failed according to the log files.
-1. `--no_log`: do not log the start and end of tasks.
+1. `--no_log`: do not log the start and end of tasks, which `arun` does
+    by default.
 1. `--sniff <nr_bytes>`, `--no_sniffer`: see [`aenv`](aenv.md).
 1. `--conf <config-file>`: use the specified configuration file, rather
     than the default one.
