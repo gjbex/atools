@@ -62,7 +62,7 @@ def read_data_rows(data_files, task_ids, sniff=1024, no_sniffer=False):
     a dictionary with the task ID as key, and a dictionary of variable
     names and values as value.  Variables from all files are merged, as
     is done by aenv.'''
-    rows = {task_id: dict() for task_id in task_ids}
+    rows = {task_id: {} for task_id in task_ids}
     if not task_ids:
         return rows
     max_task_id = max(task_ids)

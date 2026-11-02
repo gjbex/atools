@@ -95,7 +95,7 @@ if __name__ == '__main__':
                                   sniff=options.sniff,
                                   no_sniffer=options.no_sniffer)
         else:
-            rows = {task_id: dict() for task_id in task_ids}
+            rows = {task_id: {} for task_id in task_ids}
         log_name = None if options.no_logging else get_log_name(var_names)
         nr_failed = 0
         for task_id in task_ids:
