@@ -58,6 +58,11 @@ of the array ID range to the array jobs, and `arun` uses that.  The job
 script doesn't change when you change the group size.  To run a single
 task per array job, simply leave out `--group_size`.
 
+Note that for `arun`, the step of the array ID range is the group size, not
+a number of tasks to skip.  If you submit with, e.g., `--array=1-100:5`,
+`arun` runs all 100 tasks, 5 per array job, rather than only tasks 1, 6, 11,
+and so on.
+
 Since the array IDs are task identifiers, they go up to the number of tasks,
 whatever the group size.  Slurm limits array IDs to values below its
 `MaxArraySize` setting, so that also limits the number of tasks you can run
