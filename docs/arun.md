@@ -118,6 +118,12 @@ row number in the CSV file, is available as `ATOOLS_TASK_ID`.  Use it
 rather than the array ID to name output files, since an array job may run
 several tasks.
 
+The column names of the CSV file must be valid variable names: letters,
+digits and underscores, not starting with a digit.  Some names are also
+refused because they change which code runs, e.g., `PATH`, `LD_PRELOAD`,
+`LD_LIBRARY_PATH` and `BASH_ENV`.  `arun` checks the column names before it
+runs any task, and stops with an error if one of them is not allowed.
+
 The command runs in a new process, so shell variables set in the job script
 are only visible to the command if they are exported.  Modules loaded in
 the job script are available.

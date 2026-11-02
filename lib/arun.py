@@ -12,8 +12,10 @@ from vsc.atools.logger import (get_log_name, create_start_msg,
                                create_end_msg, write_log_msg)
 from vsc.atools.work_analysis import (compute_items_todo, group_task_ids,
                                       read_data_rows, MissingSourceError)
-from vsc.atools.utils import (EnvVarError, SnifferError, get_array_id,
-                              get_group_size)
+from vsc.atools.utils import (EnvVarError, SnifferError,
+                              InvalidVariableNameError,
+                              ProtectedVariableError, check_var_names,
+                              get_array_id, get_group_size)
 
 
 TASK_ID_VAR = 'ATOOLS_TASK_ID'
@@ -94,6 +96,10 @@ if __name__ == '__main__':
             rows = read_data_rows(options.data, task_ids,
                                   sniff=options.sniff,
                                   no_sniffer=options.no_sniffer)
+            invalid_names = check_var_names({name for row in rows.values()
+                                             for name in row})
+            if invalid_names:
+                raise InvalidVariableNameError(invalid_names)
         else:
             rows = {task_id: {} for task_id in task_ids}
         log_name = None if options.no_logging else get_log_name(var_names)
@@ -117,7 +123,8 @@ if __name__ == '__main__':
         sys.stderr.write(msg)
         sys.exit(error.errno)
     except (InvalidRangeSpecError, MissingSourceError, InvalidLogEntryError,
-            SnifferError, EnvVarError, ConfigFileError) as error:
+            SnifferError, EnvVarError, ConfigFileError,
+            ProtectedVariableError, InvalidVariableNameError) as error:
         msg = '### error: {0}\n'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)
