@@ -1,6 +1,9 @@
 '''Utilities and auxiliry functions and classes for dealing with job
 arrays'''
 
+import os
+
+
 class ArrayToolsError(Exception):
     '''Base class for all atools exceptions'''
 
@@ -52,3 +55,41 @@ class SnifferError(ArrayToolsError):
         msg += '\n  if you have a one-column data file, use the --no_sniffer options'
         msg += '\n  otherwise, try a larger vaue for --sniff'
         return msg
+
+
+class GroupingNotSupportedError(ArrayToolsError):
+    '''Exception to signal that the batch system doesn't support
+    grouping tasks into array jobs'''
+
+    def __init__(self, batch_system):
+        super().__init__()
+        self._batch_system = batch_system
+        self.errno = 24
+
+    def __str__(self):
+        msg = "task grouping is not supported for batch system '{0}'"
+        return msg.format(self._batch_system)
+
+
+def get_array_id(var_names):
+    '''Return the array ID set by the batch system'''
+    try:
+        return int(os.environ[var_names['array_idx_var']])
+    except KeyError as error:
+        raise EnvVarError(error.args[0])
+
+
+def supports_grouping(var_names):
+    '''Return True if the batch system supports grouping of tasks,
+    i.e., it provides the step of the array ID range'''
+    return 'array_step_var' in var_names
+
+
+def get_group_size(var_names):
+    '''Return the number of tasks per array job, i.e., the step of the
+    array ID range set by the batch system.  This is 1 if the batch
+    system doesn't support grouping, or if it doesn't define the step,
+    e.g., when not running as an array job.'''
+    if not supports_grouping(var_names):
+        return 1
+    return int(os.environ.get(var_names['array_step_var'], 1))

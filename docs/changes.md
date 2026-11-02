@@ -1,5 +1,13 @@
 # Change log
 
+## Unreleased
+* Group multiple tasks into a single array job with `arange --group_size`,
+    to reduce the load on the scheduler for short tasks (Slurm only).
+* Added `arun` to run a command for each task of an array job, defining
+    the task's variables and logging its start and end.
+* `arange --list_tasks` lists the tasks of the current array job.
+* `alog` has an `--id` option to log a specific task identifier.
+
 ## Release 1.4.2
 * Workaround for data files that have only a single column.
 * Fixes in documentation and example.

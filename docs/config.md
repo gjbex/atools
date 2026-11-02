@@ -40,3 +40,8 @@ The supported shells are:
 The remaining sections of the configuration file should normally not be
 touched, unless to add additional reduce modes, support for shells or
 batch systems.
+
+Grouping tasks into array jobs (see [`arun`](arun.md)) is only available
+for batch systems whose section defines `array_step_var`, the environment
+variable that holds the step of the array ID range.  Currently that is
+only Slurm.

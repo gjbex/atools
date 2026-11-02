@@ -60,3 +60,20 @@ def set2int_ranges(todo):
         else:
             ranges.append('{0:d}'.format(range_min))
     return ','.join(ranges)
+
+
+def set2stepped_int_ranges(ids, step):
+    '''Compute ranges with the given step for a set of IDs, e.g.,
+    {1, 6, 11, 56} with step 5 is 1-11:5,56-56:5.  Each range has an
+    explicit step, also when it contains a single ID, since Slurm uses
+    the step of the array ID range to set the group size.'''
+    if step == 1:
+        return set2int_ranges(ids)
+    ranges = []
+    for item in sorted(ids):
+        if ranges and item == ranges[-1][1] + step:
+            ranges[-1][1] = item
+        else:
+            ranges.append([item, item])
+    return ','.join('{0:d}-{1:d}:{2:d}'.format(lower, upper, step)
+                    for lower, upper in ranges)
