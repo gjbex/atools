@@ -14,7 +14,8 @@ from vsc.atools.work_analysis import (compute_items_todo, group_task_ids,
                                       read_data_rows, MissingSourceError)
 from vsc.atools.utils import (EnvVarError, SnifferError,
                               InvalidVariableNameError,
-                              ProtectedVariableError, check_var_names,
+                              ProtectedVariableError, ReservedVariableError,
+                              check_var_names,
                               get_array_id, get_group_size)
 
 
@@ -96,8 +97,10 @@ if __name__ == '__main__':
             rows = read_data_rows(options.data, task_ids,
                                   sniff=options.sniff,
                                   no_sniffer=options.no_sniffer)
-            invalid_names = check_var_names({name for row in rows.values()
-                                             for name in row})
+            names = {name for row in rows.values() for name in row}
+            if TASK_ID_VAR in names:
+                raise ReservedVariableError(TASK_ID_VAR)
+            invalid_names = check_var_names(names)
             if invalid_names:
                 raise InvalidVariableNameError(invalid_names)
         else:
@@ -124,7 +127,8 @@ if __name__ == '__main__':
         sys.exit(error.errno)
     except (InvalidRangeSpecError, MissingSourceError, InvalidLogEntryError,
             SnifferError, EnvVarError, ConfigFileError,
-            ProtectedVariableError, InvalidVariableNameError) as error:
+            ProtectedVariableError, InvalidVariableNameError,
+            ReservedVariableError) as error:
         msg = '### error: {0}\n'.format(str(error))
         sys.stderr.write(msg)
         sys.exit(error.errno)

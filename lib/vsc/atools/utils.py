@@ -149,3 +149,18 @@ def check_var_names(var_names):
             raise ProtectedVariableError(var_name)
     return sorted(var_name for var_name in var_names
                   if not VAR_NAME_RE.match(var_name))
+
+
+class ReservedVariableError(ArrayToolsError):
+    '''Exception to signal that a data file defines a variable that is
+    set by atools itself'''
+
+    def __init__(self, var_name):
+        super().__init__()
+        self._var_name = var_name
+        self.errno = 27
+
+    def __str__(self):
+        msg = ("data file defines '{0}', which can't be used as a "
+               "variable name, since it is set by atools")
+        return msg.format(self._var_name)
