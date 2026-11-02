@@ -73,10 +73,11 @@ class TestGrouping(unittest.TestCase):
 
     def test_read_data_rows(self):
         rows = read_data_rows(['data/data.csv'], [2, 3])
-        self.assertEqual({2, 3}, set(rows.keys()))
-        with open('data/data.csv') as csv_file:
-            names = csv_file.readline().strip().split(',')
-        self.assertEqual(set(names), set(rows[2].keys()))
+        expected_rows = {
+            2: {'alpha': '2.0', 'beta': '3.0', 'gamma': '4.0'},
+            3: {'alpha': '3.0', 'beta': '4.0', 'gamma': '5.0'},
+        }
+        self.assertEqual(expected_rows, rows)
 
     def test_read_data_rows_empty(self):
         self.assertEqual({}, read_data_rows(['data/data.csv'], []))
