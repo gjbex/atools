@@ -6,10 +6,9 @@ import sys
 
 from vsc.atools.config import (get_batch_system, get_var_config,
                                ConfigFileError)
-from vsc.atools.int_ranges import (int_ranges2set, set2int_ranges,
-                                   set2stepped_int_ranges,
+from vsc.atools.int_ranges import (set2int_ranges, set2stepped_int_ranges,
                                    InvalidRangeSpecError)
-from vsc.atools.log_parser import LogParser, InvalidLogEntryError
+from vsc.atools.log_parser import InvalidLogEntryError
 from vsc.atools.work_analysis import (compute_items_todo,
                                       group_start_ids, group_task_ids,
                                       MissingSourceError)
