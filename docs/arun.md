@@ -38,7 +38,7 @@ The job script `bootstrap.slurm` is:
 #SBATCH --time=01:00:00
 module load R
 
-arun --data data.csv -- Rscript bootstrap.R '$alpha' '$beta'
+arun --data data.csv -- 'Rscript bootstrap.R $alpha $beta'
 ```
 
 To run 5 tasks (rows) per array job, use `arange` to compute the array ID
@@ -58,13 +58,36 @@ of the array ID range to the array jobs, and `arun` uses that.  The job
 script doesn't change when you change the group size.  To run a single
 task per array job, simply leave out `--group_size`.
 
+Since the array IDs are task identifiers, they go up to the number of tasks,
+whatever the group size.  Slurm limits array IDs to values below its
+`MaxArraySize` setting, so that also limits the number of tasks you can run
+this way.  You can check the value for your cluster with
+`scontrol show config | grep MaxArraySize`.  If you have more tasks, split
+the data file and submit a job for each part.
+
 ### The command
 
 Everything after `--` is the command that is executed for each task.  It is
-run by `bash`, so it can be any shell command.  The variables are expanded
-when the task runs, so they *must* be put between single quotes, e.g.,
-`'$alpha'`.  Otherwise the shell running the job script expands them
-before `arun` is even started, and they are empty.
+run by `bash`, so it can be any shell command.  Always put the whole
+command between single quotes, e.g.,
+`'Rscript bootstrap.R $alpha $beta'`.  The variables are then expanded when
+each task runs.  Without the quotes, the shell running the job script
+expands them before `arun` is even started, and they are empty.
+
+Quoting the whole command also makes redirections, pipes, `;` and `&&` part
+of the command for each task, rather than of the `arun` command itself.
+For example, the following writes a separate output file for each task:
+
+```bash
+arun --data data.csv -- 'Rscript bootstrap.R $alpha $beta > out-$ATOOLS_TASK_ID.txt'
+```
+
+If a value may contain spaces, put the variable between double quotes
+inside the single quotes, e.g., `'Rscript bootstrap.R "$alpha" "$beta"'`,
+otherwise it is split into several arguments.
+
+The command itself can't contain single quotes.  If it needs them, or if it
+gets long, put it in a separate script, as shown below.
 
 Always put `--` before the command, otherwise `arun` may take the command
 for a data file.
@@ -115,7 +138,7 @@ tasks that already completed are not run again:
 
 ```bash
 arun --data data.csv --log bootstrap.slurm.log10493 \
-    -- Rscript bootstrap.R '$alpha' '$beta'
+    -- 'Rscript bootstrap.R $alpha $beta'
 ```
 
 To also redo the tasks that failed, add `--redo` to both commands.
@@ -133,7 +156,7 @@ size from the step in the range, so a range without a step, e.g.,
 1. `--log <files>`: log files of previous runs, tasks that completed are
     skipped.
 1. `--redo`: also run the tasks that failed according to the log files.
-1. `--no_log`: do not log the start and end of tasks, which `arun` does
+1. `--no_logging`: do not log the start and end of tasks, which `arun` does
     by default.
 1. `--sniff <nr_bytes>`, `--no_sniffer`: see [`aenv`](aenv.md).
 1. `--conf <config-file>`: use the specified configuration file, rather

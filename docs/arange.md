@@ -79,10 +79,17 @@ task of the group, and the step of the range is the group size.  Slurm
 passes that step on to the array jobs, so the job script doesn't need to
 know the group size.
 
+Since the array IDs are task identifiers, they go up to the number of tasks,
+whatever the group size.  Slurm limits array IDs to values below its
+`MaxArraySize` setting, so that also limits the number of tasks you can run
+this way.  You can check the value for your cluster with
+`scontrol show config | grep MaxArraySize`.  If you have more tasks, split
+the data file and submit a job for each part.
+
 The easiest way to run the tasks in the job script is
 [`arun`](arun.md):
 ```bash
-arun --data data.csv -- Rscript bootstrap.R '$alpha' '$beta'
+arun --data data.csv -- 'Rscript bootstrap.R $alpha $beta'
 ```
 
 If you need more control, you can write the loop yourself.  In the job

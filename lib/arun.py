@@ -48,7 +48,7 @@ if __name__ == '__main__':
                     'task start and end; when tasks are grouped, the '
                     'group size is taken from the array job',
         epilog="example: arun --data data.csv -- "
-               "Rscript bootstrap.R '$alpha' '$beta'"
+               "'Rscript bootstrap.R $alpha $beta'"
     )
     arg_parser.add_argument('--data', nargs='+',
                             help='CSV files to use')
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     arg_parser.add_argument('--redo', action='store_true',
                             help='also redo tasks that failed in previous '
                                  'runs')
-    arg_parser.add_argument('--no_log', action='store_true',
+    arg_parser.add_argument('--no_logging', action='store_true',
                             help='do not log task start and end')
     arg_parser.add_argument('--sniff', type=int, default=1024,
                             help='number of bytes to sniff for CSV dialect')
@@ -96,7 +96,7 @@ if __name__ == '__main__':
                                   no_sniffer=options.no_sniffer)
         else:
             rows = {task_id: dict() for task_id in task_ids}
-        log_name = None if options.no_log else get_log_name(var_names)
+        log_name = None if options.no_logging else get_log_name(var_names)
         nr_failed = 0
         for task_id in task_ids:
             if log_name:
