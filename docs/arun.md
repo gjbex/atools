@@ -55,8 +55,10 @@ array ID 101, runs only rows 101 to 103.
 
 The group size is set only when you submit the job: Slurm passes the step
 of the array ID range to the array jobs, and `arun` uses that.  The job
-script doesn't change when you change the group size.  To run a single
-task per array job, simply leave out `--group_size`.
+script doesn't change when you change the group size.  The default group
+size is 1: if you leave out `--group_size`, each array job runs a single
+task.  This is also the case when `arun` runs outside of a Slurm array job,
+or with a batch system that doesn't support grouping.
 
 Note that for `arun`, the step of the array ID range is the group size, not
 a number of tasks to skip.  If you submit with, e.g., `--array=1-100:5`,

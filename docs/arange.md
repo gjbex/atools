@@ -68,8 +68,9 @@ array job, tasks 6-10 in the next, and so on.
 Grouping is only supported for Slurm.
 
 The `--group_size <n>` option makes `arange` compute the array ID range for
-groups of `n` tasks.  To submit a job that runs 5 rows of `data.csv` per
-array job, use
+groups of `n` tasks.  Without this option, each array job runs a single
+task, which is the same as `--group_size 1`.  To submit a job that runs 5
+rows of `data.csv` per array job, use
 ```bash
 $ sbatch --array=$(arange --data data.csv --group_size 5)  jobscript.slurm
 ```

@@ -31,7 +31,8 @@ if __name__ == '__main__':
                             help='redo failed items')
     arg_parser.add_argument('--group_size', type=int,
                             help='number of consecutive tasks to run in '
-                                 'a single array job (Slurm only)')
+                                 'a single array job, default 1 (Slurm '
+                                 'only)')
     arg_parser.add_argument('--list_tasks', action='store_true',
                             help='list the task IDs to run in the current '
                                  'array job, for use in a job script')
