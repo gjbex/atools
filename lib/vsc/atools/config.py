@@ -28,6 +28,16 @@ def get_default_shell(config_filename):
         raise ConfigFileError(str(error))
 
 
+def get_batch_system(config_filename):
+    '''returns the batch system specified in the configuration file'''
+    config_parser = ConfigParser()
+    try:
+        config_parser.read(config_filename)
+        return config_parser['global'].get('batch_system', None)
+    except Error as error:
+        raise ConfigFileError(str(error))
+
+
 def get_var_config(config_filename):
     '''returns a dictionary with the relevant shell variable names for
     for the selected batch system'''

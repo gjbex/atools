@@ -58,4 +58,74 @@ $ arange  -t 1-250  --log jobscript.slurm.log10493`
 If you want to include the tasks that failed, for instance when a bug that
 caused this was fixed, simply add the `--redo` flag when invoking `arange`.
 
+## Grouping tasks
+
+When tasks are very short, running each of them as a separate array job
+puts a lot of stress on the scheduler.  In that case it is better to run
+several consecutive tasks in a single array job, e.g., tasks 1-5 in one
+array job, tasks 6-10 in the next, and so on.
+
+Grouping is only supported for Slurm.
+
+The `--group_size <n>` option makes `arange` compute the array ID range for
+groups of `n` tasks.  Without this option, each array job runs a single
+task, which is the same as `--group_size 1`.  To submit a job that runs 5
+rows of `data.csv` per array job, use
+```bash
+$ sbatch --array=$(arange --data data.csv --group_size 5)  jobscript.slurm
+```
+For a data file with 103 rows, `arange` prints `1-101:5`, so Slurm starts 21
+array jobs with array IDs 1, 6, 11, ..., 101.  The array ID is the first
+task of the group, and the step of the range is the group size.  Slurm
+passes that step on to the array jobs, so the job script doesn't need to
+know the group size.
+
+Since the array IDs are task identifiers, they go up to the number of tasks,
+whatever the group size.  Slurm limits array IDs to values below its
+`MaxArraySize` setting, so that also limits the number of tasks you can run
+this way.  You can check the value for your cluster with
+`scontrol show config | grep MaxArraySize`.  If you have more tasks, split
+the data file and submit a job for each part.
+
+The easiest way to run the tasks in the job script is
+[`arun`](arun.md):
+```bash
+arun --data data.csv -- 'Rscript bootstrap.R $alpha $beta'
+```
+
+If you need more control, you can write the loop yourself.  In the job
+script, `arange --list_tasks` prints the task identifiers of the current
+array job.  Pass the task identifier explicitly to `aenv` and `alog` using
+their `--id` option.
+
+```bash
+#!/usr/bin/env -S bash -l
+...
+for task_id in $(arange --data data.csv --list_tasks)
+do
+    alog --state start --id "$task_id"
+    source <(aenv --data data.csv --id "$task_id")
+    Rscript bootstrap.R $alpha $beta
+    alog --state end --id "$task_id" --exit $?
+done
+```
+The last group may hold fewer tasks if the number of tasks isn't a multiple
+of the group size.
+
+Since the log file still contains task identifiers, `--summary` works as
+before.  To resume a grouped job, add `--group_size` to the usual
+command, which gives the array IDs of the groups that still have work to
+do, e.g., `1-6:5,56-56:5`:
+```bash
+$ sbatch --array=$(arange --data data.csv --group_size 5 \
+                          --log jobscript.slurm.log10493)  jobscript.slurm
+```
+Add the same `--log` (and, if needed, `--redo`) options to `arun` or
+`arange --list_tasks` in the job script, so that tasks that already
+completed are skipped.
+
+Use the array ID range computed by `arange` as is.  Slurm takes the group
+size from the step in the range, so a range without a step, e.g.,
+`1,6,56`, runs only a single task per array job.
+
 Help on the command is printed using the `--help` flag.

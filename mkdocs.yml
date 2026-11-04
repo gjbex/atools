@@ -9,6 +9,7 @@ nav:
 - Automatically adapting your job script: 'acreate.md'
 - Monitoring jobs and resuming tasks: 'arange.md'
 - Gathering output: 'areduce.md'
+- Running many short tasks: 'arun.md'
 - Detailed job statistics: 'aload.md'
 - Best practices: 'best_practices.md'
 - FAQ: 'faq.md'

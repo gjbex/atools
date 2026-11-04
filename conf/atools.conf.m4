@@ -32,6 +32,8 @@ array_idx_var = SLURM_ARRAY_TASK_ID
 job_id_var = SLURM_ARRAY_JOB_ID
 job_name_var = SLURM_JOB_NAME
 submission_dir = SLURM_SUBMIT_DIR
+# group size when tasks are grouped, only for batch systems that support it
+array_step_var = SLURM_ARRAY_TASK_STEP
 
 # file formats for reduction
 [text]

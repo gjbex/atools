@@ -70,7 +70,13 @@ The format is `<task-id> <status> by <node-name> at <time-stamp>`, followed
 by `: <exit-status>` for failed jobs.  For this particular example, task
 1 didn't complete, 2 failed, and 3 completed successfully.
 
-`alog` takes a single option, `--conf <conf>` to specify your own
-configuration file.
+`alog` has the following options:
+
+1. `--id <id>`: log the given task identifier rather than the one set by
+    the queue system or scheduler.  This is used when multiple tasks are
+    grouped into a single array job, see
+    [grouping tasks](arange.md#grouping-tasks).
+1. `--conf <conf>`: use the specified configuration file, rather than the
+    default one.
 
 Help on the command is printed using the `--help` flag.

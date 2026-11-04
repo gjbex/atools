@@ -25,34 +25,56 @@ class MissingSourceError(ArrayToolsError):
         return msg.format(self._function_name)
 
 
+def _create_csv_reader(csv_file, sniff=1024, no_sniffer=False):
+    '''Create a CSV dict reader for the given file, determining the
+    CSV dialect using the sniffer unless no_sniffer is True'''
+    if no_sniffer:
+        return csv.DictReader(csv_file, fieldnames=None, restkey='rest',
+                              restval=None)
+    sniffer = csv.Sniffer()
+    try:
+        dialect = sniffer.sniff(csv_file.read(sniff))
+    except csv.Error as e:
+        if 'not determine delimiter' in str(e):
+            raise SnifferError(e)
+        else:
+            raise e
+    csv_file.seek(0)
+    return csv.DictReader(csv_file, fieldnames=None, restkey='rest',
+                          restval=None, dialect=dialect)
+
+
 def _compute_data_ids(data_files, sniff=1024, no_sniffer=False):
     nr_work_items = sys.maxsize
     for filename in data_files:
         with open(filename, 'r') as csv_file:
-            if no_sniffer:
-                csv_reader = csv.DictReader(csv_file, fieldnames=None,
-                                            restkey='rest',
-                                            restval=None)
-            else:
-                sniffer = csv.Sniffer()
-                try:
-                    dialect = sniffer.sniff(csv_file.read(sniff))
-                except csv.Error as e:
-                    if 'not determine delimiter' in str(e):
-                        raise SnifferError(e)
-                    else:
-                        raise e
-                csv_file.seek(0)
-                csv_reader = csv.DictReader(csv_file, fieldnames=None,
-                                            restkey='rest',
-                                            restval=None,
-                                            dialect=dialect)
+            csv_reader = _create_csv_reader(csv_file, sniff, no_sniffer)
             row_nr = 0
             for _ in csv_reader:
                 row_nr += 1
             if row_nr < nr_work_items:
                 nr_work_items = row_nr
     return set(range(1, nr_work_items + 1))
+
+
+def read_data_rows(data_files, task_ids, sniff=1024, no_sniffer=False):
+    '''Read the rows for the given task IDs from the CSV files, returns
+    a dictionary with the task ID as key, and a dictionary of variable
+    names and values as value.  Variables from all files are merged, as
+    is done by aenv.'''
+    rows = {task_id: {} for task_id in task_ids}
+    if not task_ids:
+        return rows
+    max_task_id = max(task_ids)
+    for filename in data_files:
+        with open(filename, 'r') as csv_file:
+            csv_reader = _create_csv_reader(csv_file, sniff, no_sniffer)
+            for row_nr, row in enumerate(csv_reader, start=1):
+                if row_nr in rows:
+                    rows[row_nr].update(row)
+                if row_nr >= max_task_id:
+                    break
+    return rows
 
 
 def compute_items_todo(data_files, t_str, log_files, must_redo=False,
@@ -210,3 +232,22 @@ class LogAnalyzer(object):
                 ORDER BY t.slave_Id;'''.format(no_failed)
         cursor = self._conn.cursor()
         return cursor.execute(sql).fetchall()
+
+
+def group_start_ids(task_ids, group_size):
+    '''Compute the set of array IDs needed to run the given task IDs
+    when tasks are grouped by group_size consecutive tasks per array
+    job.  The array ID of a group is the ID of its first task, i.e.,
+    1, group_size + 1, 2*group_size + 1, ...'''
+    if group_size < 1:
+        raise ValueError('group size must be at least 1')
+    return {((task_id - 1)//group_size)*group_size + 1
+            for task_id in task_ids}
+
+
+def group_task_ids(array_id, group_size):
+    '''Compute the set of task IDs run by the array job with the given
+    array ID, i.e., the first task of the group'''
+    if group_size < 1:
+        raise ValueError('group size must be at least 1')
+    return set(range(array_id, array_id + group_size))
